@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DARK theme values (the premium default look). -->
+<resources>
+    <color name="bg_top">#0B1220</color>
+    <color name="bg_bottom">#05070D</color>
+    <color name="glow">#22315C86</color>
+
+    <color name="surface">#141C2B</color>
+    <color name="stroke">#22FFFFFF</color>
+
+    <color name="tile_fill_a">#22FFFFFF</color>
+    <color name="tile_fill_b">#0AFFFFFF</color>
+    <color name="card_fill_a">#20FFFFFF</color>
+    <color name="card_fill_b">#0AFFFFFF</color>
+    <color name="chip_fill">#14FFFFFF</color>
+    <color name="btn_fill">#14FFFFFF</color>
+    <color name="icon_fill_a">#2E4FC3F7</color>
+    <color name="icon_fill_b">#12000000</color>
+    <color name="tile_press">#33FFFFFF</color>
+
+    <color name="accent">#4FC3F7</color>
+    <color name="accent_dark">#2E8BD6</color>
+    <color name="accent_soft">#2A4FC3F7</color>
+
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#B0C4D8</color>
+    <color name="text_muted">#6B7A8D</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

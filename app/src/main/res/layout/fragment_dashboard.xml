@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/constraint"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="22dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <!-- ===== LEFT: clock + weather + media ===== -->
+    <TextView
+        android:id="@+id/txtClock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:text="2:28"
+        android:textColor="@color/text_primary"
+        android:textSize="80sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtAmPm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="18dp"
+        android:text="AM"
+        android:textColor="@color/accent"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/txtClock"
+        app:layout_constraintStart_toEndOf="@id/txtClock" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="الجمعة، 8 أغسطس"
+        android:textColor="@color/text_secondary"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtClock" />
+
+    <!-- weather chip -->
+    <LinearLayout
+        android:id="@+id/weatherRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/search_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDate">
+
+        <ImageView
+            android:id="@+id/weatherIcon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:contentDescription="weather"
+            android:src="@drawable/ic_cloud" />
+
+        <TextView
+            android:id="@+id/weatherTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="--°"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/weatherDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="القاهرة"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- media card -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mediaCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_bg"
+        android:padding="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vGuide"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/albumArt"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/album_placeholder"
+            android:clipToOutline="true"
+            android:contentDescription="album"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTrack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/now_playing"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/albumArt"
+            app:layout_constraintTop_toTopOf="@id/albumArt" />
+
+        <TextView
+            android:id="@+id/txtArtist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/tap_to_play"
+            android:textColor="@color/text_muted"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/albumArt"
+            app:layout_constraintTop_toBottomOf="@id/txtTrack" />
+
+        <ProgressBar
+            android:id="@+id/mediaProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="8dp"
+            android:max="100"
+            android:progress="0"
+            android:progressTint="@color/accent"
+            android:progressBackgroundTint="@color/stroke"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/albumArt"
+            app:layout_constraintTop_toBottomOf="@id/txtArtist" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@id/albumArt"
+            app:layout_constraintTop_toBottomOf="@id/mediaProgress">
+
+            <ImageButton
+                android:id="@+id/btnPrev"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_circle"
+                android:contentDescription="prev"
+                android:src="@drawable/ic_prev" />
+
+            <ImageButton
+                android:id="@+id/btnPlay"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_accent"
+                android:contentDescription="play"
+                android:src="@drawable/ic_play" />
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/btn_circle"
+                android:contentDescription="next"
+                android:src="@drawable/ic_next" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/mediaHint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/enable_media"
+            android:textColor="@color/accent"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/albumArt" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ===== RIGHT: nav + status + dock ===== -->
+    <FrameLayout
+        android:id="@+id/navCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/card_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/tile_focus"
+        app:layout_constraintBottom_toTopOf="@id/statusRow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vGuide"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="map"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nav_map" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_margin="12dp"
+            android:background="@drawable/frost_chip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="turn"
+                android:src="@drawable/ic_nav" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/open_maps"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- status buttons row -->
+    <LinearLayout
+        android:id="@+id/statusRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="12dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/dock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vGuide">
+
+        <include
+            android:id="@+id/btnClimate"
+            layout="@layout/view_status_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/btnFuel"
+            layout="@layout/view_status_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/btnCar"
+            layout="@layout/view_status_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <!-- app dock -->
+    <LinearLayout
+        android:id="@+id/dock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/card_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vGuide">
+
+        <ImageButton android:id="@+id/dockPhone" style="@style/DockIcon" android:src="@drawable/ic_phone" />
+        <ImageButton android:id="@+id/dockMaps" style="@style/DockIcon" android:src="@drawable/ic_maps" />
+        <ImageButton android:id="@+id/dockVideo" style="@style/DockIcon" android:src="@drawable/ic_video" />
+        <ImageButton android:id="@+id/dockRadio" style="@style/DockIcon" android:src="@drawable/ic_radio" />
+        <ImageButton android:id="@+id/dockCamera" style="@style/DockIcon" android:src="@drawable/ic_camera" />
+        <ImageButton android:id="@+id/dockSettings" style="@style/DockIcon" android:src="@drawable/ic_settings" />
+        <ImageButton android:id="@+id/dockApps" style="@style/DockIcon" android:src="@drawable/ic_apps" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ZARWA</string>
+    <string name="all_apps">التطبيقات</string>
+    <string name="maps">الخرائط</string>
+    <string name="music">الموسيقى</string>
+    <string name="radio">الراديو</string>
+    <string name="phone">الهاتف</string>
+    <string name="bluetooth">بلوتوث</string>
+    <string name="video">الفيديو</string>
+    <string name="settings">الإعدادات</string>
+    <string name="browser">الإنترنت</string>
+    <string name="now_playing">لا يوجد تشغيل</string>
+    <string name="tap_to_play">اضغط لتشغيل الموسيقى</string>
+    <string name="search_apps">ابحث عن تطبيق…</string>
+    <string name="back">رجوع</string>
+    <string name="navigation">الملاحة</string>
+    <string name="open_maps">افتح الخرائط</string>
+    <string name="climate">التكييف</string>
+    <string name="fuel_range">المدى</string>
+    <string name="car_status">حالة العربية</string>
+    <string name="camera">الكاميرا</string>
+    <string name="enable_media">فعّل قراءة الموسيقى</string>
+    <string name="needs_can">يحتاج ربط CAN</string>
+    <string name="toggle_theme">تبديل الوضع الفاتح/الداكن</string>
+</resources>

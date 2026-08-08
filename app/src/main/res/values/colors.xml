@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- LIGHT theme values (default). Dark overrides live in values-night/colors.xml.
+     Layouts and drawables reference these names only, so both themes stay in sync. -->
+<resources>
+    <color name="bg_top">#EAF0F8</color>
+    <color name="bg_bottom">#D7E1EE</color>
+    <color name="glow">#33A9CBF0</color>
+
+    <color name="surface">#FFFFFF</color>
+    <color name="stroke">#1A0B1A2E</color>
+
+    <color name="tile_fill_a">#FFFFFFFF</color>
+    <color name="tile_fill_b">#F2F6FB</color>
+    <color name="card_fill_a">#FFFFFFFF</color>
+    <color name="card_fill_b">#EEF3F9</color>
+    <color name="chip_fill">#FFFFFFFF</color>
+    <color name="btn_fill">#FFFFFFFF</color>
+    <color name="icon_fill_a">#221E88D6</color>
+    <color name="icon_fill_b">#08000000</color>
+    <color name="tile_press">#14000000</color>
+
+    <color name="accent">#1E88D6</color>
+    <color name="accent_dark">#1565A8</color>
+    <color name="accent_soft">#221E88D6</color>
+
+    <color name="text_primary">#0B1A2E</color>
+    <color name="text_secondary">#42566B</color>
+    <color name="text_muted">#8595A7</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
