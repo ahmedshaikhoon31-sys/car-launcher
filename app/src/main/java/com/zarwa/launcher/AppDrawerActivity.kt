@@ -19,6 +19,7 @@ class AppDrawerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(Prefs.themeStyle(this))
         b = ActivityAppDrawerBinding.inflate(layoutInflater)
         setContentView(b.root)
 

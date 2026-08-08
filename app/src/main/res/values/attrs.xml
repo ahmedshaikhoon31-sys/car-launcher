@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Accent colours are theme attributes so the whole UI recolours when the
+         user picks a preset theme. -->
+    <attr name="accent" format="color" />
+    <attr name="accentDark" format="color" />
+    <attr name="accentSoft" format="color" />
+</resources>

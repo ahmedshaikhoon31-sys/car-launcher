@@ -5,14 +5,19 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.zarwa.launcher.databinding.ActivityMainBinding
+import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Prefs.applyTheme(Prefs.isDark(this))
         super.onCreate(savedInstanceState)
+        setTheme(Prefs.themeStyle(this))
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
 
@@ -59,16 +65,81 @@ class MainActivity : AppCompatActivity() {
         updateDots(0)
 
         b.btnTheme.setOnClickListener {
-            Prefs.setDark(this, !Prefs.isDark(this)) // triggers recreate via night mode
+            Prefs.setDark(this, !Prefs.isDark(this)) // day/night toggle (triggers recreate)
         }
+        b.btnTheme.setOnLongClickListener { showThemePicker(); true }
 
-        b.btnWall.setOnClickListener { pickImage.launch(arrayOf("image/*")) }
-        b.btnWall.setOnLongClickListener {
-            Prefs.setBgUri(this, null)
-            applyBackground()
-            Toast.makeText(this, getString(R.string.wallpaper_reset), Toast.LENGTH_SHORT).show()
-            true
-        }
+        b.btnWall.setOnClickListener { showWallpaperMenu() }
+    }
+
+    private fun showThemePicker() {
+        val names = arrayOf(
+            getString(R.string.theme_blue), getString(R.string.theme_gold),
+            getString(R.string.theme_green), getString(R.string.theme_purple),
+            getString(R.string.theme_red)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.theme_pick)
+            .setItems(names) { _, which ->
+                Prefs.setThemeIndex(this, which)
+                recreate()
+            }
+            .show()
+    }
+
+    private fun showWallpaperMenu() {
+        val items = arrayOf(
+            getString(R.string.bg_from_gallery),
+            getString(R.string.bg_from_url),
+            getString(R.string.bg_reset)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.bg_choose)
+            .setItems(items) { _, which ->
+                when (which) {
+                    0 -> pickImage.launch(arrayOf("image/*"))
+                    1 -> showUrlDialog()
+                    2 -> { Prefs.setBgUri(this, null); applyBackground() }
+                }
+            }
+            .show()
+    }
+
+    private fun showUrlDialog() {
+        val input = EditText(this)
+        input.hint = getString(R.string.bg_url_hint)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.bg_from_url)
+            .setView(input)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val url = input.text.toString().trim()
+                if (url.startsWith("http")) downloadBackground(url)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun downloadBackground(url: String) {
+        Toast.makeText(this, R.string.downloading, Toast.LENGTH_SHORT).show()
+        Thread {
+            try {
+                val conn = (URL(url).openConnection() as HttpURLConnection).apply {
+                    connectTimeout = 10000; readTimeout = 15000; instanceFollowRedirects = true
+                }
+                val bytes = conn.inputStream.use { it.readBytes() }
+                conn.disconnect()
+                val file = File(filesDir, "zarwa_bg.jpg")
+                file.writeBytes(bytes)
+                runOnUiThread {
+                    Prefs.setBgUri(this, Uri.fromFile(file).toString())
+                    applyBackground()
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(this, R.string.download_failed, Toast.LENGTH_LONG).show()
+                }
+            }
+        }.start()
     }
 
     private fun applyBackground() {
@@ -92,7 +163,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         } catch (e: Exception) {
-            // URI no longer accessible — fall back to the gradient.
             Prefs.setBgUri(this, null)
             b.imgBackground.visibility = View.GONE
             b.bgScrim.visibility = View.GONE
@@ -132,6 +202,5 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (b.pager.currentItem != 0) b.pager.currentItem = 0
-        // else stay on home (launcher must not exit to black)
     }
 }

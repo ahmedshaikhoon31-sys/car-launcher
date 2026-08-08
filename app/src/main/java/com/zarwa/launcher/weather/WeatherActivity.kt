@@ -14,6 +14,7 @@ class WeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Prefs.applyTheme(Prefs.isDark(this))
         super.onCreate(savedInstanceState)
+        setTheme(Prefs.themeStyle(this))
         b = ActivityWeatherBinding.inflate(layoutInflater)
         setContentView(b.root)
 

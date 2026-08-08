@@ -12,6 +12,7 @@ object Prefs {
     private const val KEY_CITY = "city"
     private const val KEY_BG = "bg_uri"
     private const val KEY_GRID = "grid_config"
+    private const val KEY_THEME = "theme_index"
 
     private fun sp(ctx: Context) = ctx.getSharedPreferences(FILE, Context.MODE_PRIVATE)
 
@@ -54,5 +55,20 @@ object Prefs {
 
     fun setGridConfig(ctx: Context, json: String) {
         sp(ctx).edit().putString(KEY_GRID, json).apply()
+    }
+
+    // Colour theme preset: 0 blue, 1 gold, 2 green, 3 purple, 4 red.
+    fun themeIndex(ctx: Context): Int = sp(ctx).getInt(KEY_THEME, 0)
+
+    fun setThemeIndex(ctx: Context, i: Int) {
+        sp(ctx).edit().putInt(KEY_THEME, i).apply()
+    }
+
+    fun themeStyle(ctx: Context): Int = when (themeIndex(ctx)) {
+        1 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Gold
+        2 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Green
+        3 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Purple
+        4 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Red
+        else -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher
     }
 }

@@ -8,5 +8,37 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:fontFamily">sans-serif-light</item>
+        <!-- default accent (blue) -->
+        <item name="accent">#4FC3F7</item>
+        <item name="accentDark">#2E8BD6</item>
+        <item name="accentSoft">#2A4FC3F7</item>
+    </style>
+
+    <style name="Theme.ZarwaLauncher.Gold" parent="Theme.ZarwaLauncher">
+        <item name="colorPrimary">#F0B24B</item>
+        <item name="accent">#F0B24B</item>
+        <item name="accentDark">#C77F1A</item>
+        <item name="accentSoft">#2AF0B24B</item>
+    </style>
+
+    <style name="Theme.ZarwaLauncher.Green" parent="Theme.ZarwaLauncher">
+        <item name="colorPrimary">#4FD08A</item>
+        <item name="accent">#4FD08A</item>
+        <item name="accentDark">#2E9E63</item>
+        <item name="accentSoft">#2A4FD08A</item>
+    </style>
+
+    <style name="Theme.ZarwaLauncher.Purple" parent="Theme.ZarwaLauncher">
+        <item name="colorPrimary">#A98BF0</item>
+        <item name="accent">#A98BF0</item>
+        <item name="accentDark">#7A5AD4</item>
+        <item name="accentSoft">#2AA98BF0</item>
+    </style>
+
+    <style name="Theme.ZarwaLauncher.Red" parent="Theme.ZarwaLauncher">
+        <item name="colorPrimary">#F07070</item>
+        <item name="accent">#F07070</item>
+        <item name="accentDark">#C74747</item>
+        <item name="accentSoft">#2AF07070</item>
     </style>
 </resources>

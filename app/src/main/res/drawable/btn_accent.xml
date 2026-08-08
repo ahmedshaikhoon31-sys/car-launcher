@@ -3,11 +3,7 @@
     android:color="#55FFFFFF">
     <item>
         <shape android:shape="oval">
-            <gradient
-                android:angle="135"
-                android:startColor="@color/accent"
-                android:endColor="@color/accent_dark"
-                android:type="linear" />
+            <solid android:color="?attr/accent" />
         </shape>
     </item>
 </ripple>

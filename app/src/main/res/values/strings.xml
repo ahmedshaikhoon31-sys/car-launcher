@@ -41,4 +41,19 @@
     <string name="cell_nav">خرائط</string>
     <string name="cell_empty">فاضي</string>
     <string name="choose_app">اختار تطبيق</string>
+    <string name="bg_from_gallery">من صور جهازي</string>
+    <string name="bg_from_url">من لينك على النت</string>
+    <string name="bg_reset">رجوع للخلفية الأصلية</string>
+    <string name="bg_choose">اختيار الخلفية</string>
+    <string name="bg_url_hint">الصق لينك الصورة هنا</string>
+    <string name="downloading">جاري التحميل…</string>
+    <string name="download_failed">فشل تحميل الصورة — اتأكد من اللينك والإنترنت</string>
+    <string name="theme_pick">اختار لون الثيم</string>
+    <string name="theme_blue">أزرق</string>
+    <string name="theme_gold">ذهبي</string>
+    <string name="theme_green">أخضر</string>
+    <string name="theme_purple">بنفسجي</string>
+    <string name="theme_red">أحمر</string>
+    <string name="ok">تمام</string>
+    <string name="cancel">إلغاء</string>
 </resources>
