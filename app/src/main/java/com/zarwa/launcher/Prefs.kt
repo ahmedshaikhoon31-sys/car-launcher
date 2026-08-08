@@ -10,6 +10,7 @@ object Prefs {
     private const val KEY_LAT = "lat"
     private const val KEY_LON = "lon"
     private const val KEY_CITY = "city"
+    private const val KEY_BG = "bg_uri"
 
     private fun sp(ctx: Context) = ctx.getSharedPreferences(FILE, Context.MODE_PRIVATE)
 
@@ -38,5 +39,12 @@ object Prefs {
             .putFloat(KEY_LON, lon.toFloat())
             .putString(KEY_CITY, city)
             .apply()
+    }
+
+    // Custom home-screen background image (content:// URI), null = use the gradient.
+    fun bgUri(ctx: Context): String? = sp(ctx).getString(KEY_BG, null)
+
+    fun setBgUri(ctx: Context, uri: String?) {
+        sp(ctx).edit().putString(KEY_BG, uri).apply()
     }
 }

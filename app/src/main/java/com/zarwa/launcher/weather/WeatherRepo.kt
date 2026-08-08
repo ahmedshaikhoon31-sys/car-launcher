@@ -8,6 +8,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 data class Weather(val tempC: Int, val desc: String, val iconRes: Int)
+data class HourWeather(val label: String, val tempC: Int, val iconRes: Int)
 
 /** Fetches current weather from Open-Meteo (free, no API key). */
 object WeatherRepo {
@@ -37,6 +38,54 @@ object WeatherRepo {
             }
             main.post { cb(result) }
         }.start()
+    }
+
+    /** Next hours forecast (up to [count]). */
+    fun fetchHourly(lat: Double, lon: Double, count: Int, cb: (List<HourWeather>) -> Unit) {
+        Thread {
+            val result = try {
+                val url = URL(
+                    "https://api.open-meteo.com/v1/forecast" +
+                        "?latitude=$lat&longitude=$lon&hourly=temperature_2m,weather_code" +
+                        "&forecast_days=2&timezone=auto"
+                )
+                val conn = (url.openConnection() as HttpURLConnection).apply {
+                    connectTimeout = 8000; readTimeout = 8000; requestMethod = "GET"
+                }
+                val body = conn.inputStream.bufferedReader().use { it.readText() }
+                conn.disconnect()
+                val hourly = JSONObject(body).getJSONObject("hourly")
+                val times = hourly.getJSONArray("time")
+                val temps = hourly.getJSONArray("temperature_2m")
+                val codes = hourly.getJSONArray("weather_code")
+
+                val now = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH':00'", java.util.Locale.US)
+                    .format(java.util.Date())
+                var start = 0
+                for (i in 0 until times.length()) {
+                    if (times.getString(i) >= now) { start = i; break }
+                }
+                val list = ArrayList<HourWeather>()
+                var i = start
+                while (i < times.length() && list.size < count) {
+                    val t = times.getString(i) // yyyy-MM-ddTHH:00
+                    val hour = t.substring(11, 13).toInt()
+                    val label = if (list.isEmpty()) "الآن" else hourLabel(hour)
+                    list.add(HourWeather(label, temps.getDouble(i).toInt(), iconFor(codes.getInt(i))))
+                    i++
+                }
+                list
+            } catch (e: Exception) {
+                emptyList()
+            }
+            main.post { cb(result) }
+        }.start()
+    }
+
+    private fun hourLabel(hour24: Int): String {
+        val h12 = when { hour24 == 0 -> 12; hour24 > 12 -> hour24 - 12; else -> hour24 }
+        val ampm = if (hour24 < 12) "ص" else "م"
+        return "$h12 $ampm"
     }
 
     private fun iconFor(code: Int): Int = when (code) {

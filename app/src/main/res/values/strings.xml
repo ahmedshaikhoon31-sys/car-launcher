@@ -23,4 +23,11 @@
     <string name="enable_media">فعّل قراءة الموسيقى</string>
     <string name="needs_can">يحتاج ربط CAN</string>
     <string name="toggle_theme">تبديل الوضع الفاتح/الداكن</string>
+    <string name="wallpaper">خلفية الشاشة</string>
+    <string name="wallpaper_reset">رجعنا الخلفية الأصلية (ضغطة مطوّلة)</string>
+    <string name="split_view">تقسيم الشاشة</string>
+    <string name="split_hint">اختار تطبيق يفتح جنب اللي شغّال (لو الوحدة بتدعم تقسيم الشاشة)</string>
+    <string name="split_unsupported">وحدتك مش بتدعم تقسيم الشاشة</string>
+    <string name="hourly">الطقس بالساعة</string>
+    <string name="now">الآن</string>
 </resources>

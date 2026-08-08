@@ -7,8 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import android.content.Intent
+import androidx.core.content.ContextCompat
+import com.zarwa.launcher.can.CanBus
+import com.zarwa.launcher.can.CanReceiver
 import com.zarwa.launcher.databinding.FragmentDashboardBinding
 import com.zarwa.launcher.media.MediaHub
+import com.zarwa.launcher.weather.WeatherActivity
 import com.zarwa.launcher.weather.WeatherRepo
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -25,11 +30,13 @@ class DashboardFragment : Fragment() {
     private val ampmFmt = SimpleDateFormat("a", Locale.US)
     private val dateFmt = SimpleDateFormat("EEEE، d MMMM", arLocale)
     private var lastWeatherFetch = 0L
+    private var canReceiver: CanReceiver? = null
 
     private val tick = object : Runnable {
         override fun run() {
             updateClock()
             updateMedia()
+            updateCan()
             maybeRefreshWeather()
             handler.postDelayed(this, 1000)
         }
@@ -57,6 +64,11 @@ class DashboardFragment : Fragment() {
         // Navigation card
         b.navCard.setOnClickListener { AppLauncher.openMaps(ctx) }
 
+        // Weather chip -> hourly forecast screen
+        b.weatherRow.setOnClickListener {
+            startActivity(Intent(ctx, WeatherActivity::class.java))
+        }
+
         // Status widgets (decorative until CAN is wired — honest labels + tap opens related app)
         b.btnClimate.statusIcon.setImageResource(R.drawable.ic_climate)
         b.btnClimate.statusTitle.text = getString(R.string.climate)
@@ -79,6 +91,7 @@ class DashboardFragment : Fragment() {
         b.dockVideo.setOnClickListener { AppLauncher.openVideo(ctx) }
         b.dockRadio.setOnClickListener { AppLauncher.openRadio(ctx) }
         b.dockCamera.setOnClickListener { AppLauncher.openCamera(ctx) }
+        b.dockSplit.setOnClickListener { AppLauncher.openDrawerForSplit(ctx) }
         b.dockSettings.setOnClickListener { AppLauncher.openSettings(ctx) }
         b.dockApps.setOnClickListener { AppLauncher.openDrawer(ctx) }
     }
@@ -118,6 +131,24 @@ class DashboardFragment : Fragment() {
         b.btnPlay.setImageResource(if (np.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
     }
 
+    /** Fill climate/fuel/car widgets from CAN data if any arrived (see CanBus). */
+    private fun updateCan() {
+        val l = CanBus.climateLeft
+        val r = CanBus.climateRight
+        if (l != null || r != null) {
+            b.btnClimate.statusTitle.text = "${l ?: "--"}° / ${r ?: "--"}°"
+            b.btnClimate.statusSub.text = getString(R.string.climate)
+        }
+        CanBus.rangeKm?.let {
+            b.btnFuel.statusTitle.text = "$it كم"
+            b.btnFuel.statusSub.text = getString(R.string.fuel_range)
+        }
+        CanBus.doorsLocked?.let {
+            b.btnCar.statusTitle.text = if (it) "مغلقة" else "مفتوحة"
+            b.btnCar.statusSub.text = getString(R.string.car_status)
+        }
+    }
+
     private fun maybeRefreshWeather() {
         val now = System.currentTimeMillis()
         if (now - lastWeatherFetch < 15 * 60 * 1000L) return
@@ -135,11 +166,19 @@ class DashboardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         handler.post(tick)
+        val ctx = context ?: return
+        val rec = CanReceiver { activity?.runOnUiThread { if (_b != null) updateCan() } }
+        canReceiver = rec
+        ContextCompat.registerReceiver(
+            ctx, rec, CanBus.intentFilter(), ContextCompat.RECEIVER_EXPORTED
+        )
     }
 
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(tick)
+        canReceiver?.let { try { context?.unregisterReceiver(it) } catch (_: Exception) {} }
+        canReceiver = null
     }
 
     override fun onDestroyView() {

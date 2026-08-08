@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.zarwa.launcher.databinding.ActivityAppDrawerBinding
@@ -14,6 +15,7 @@ class AppDrawerActivity : AppCompatActivity() {
     private lateinit var b: ActivityAppDrawerBinding
     private lateinit var adapter: AppsAdapter
     private var allApps: List<AppInfo> = emptyList()
+    private var adjacent = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +28,17 @@ class AppDrawerActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             )
 
+        adjacent = intent.getBooleanExtra("adjacent", false)
+        if (adjacent) Toast.makeText(this, R.string.split_hint, Toast.LENGTH_LONG).show()
+
         adapter = AppsAdapter { app ->
-            AppLauncher.launchPackage(this, app.packageName)
+            if (adjacent) {
+                if (!AppLauncher.launchAdjacent(this, app.packageName)) {
+                    AppLauncher.launchPackage(this, app.packageName)
+                }
+            } else {
+                AppLauncher.launchPackage(this, app.packageName)
+            }
         }
         b.gridApps.layoutManager = GridLayoutManager(this, 5)
         b.gridApps.adapter = adapter

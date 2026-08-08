@@ -1,9 +1,14 @@
 package com.zarwa.launcher
 
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -13,6 +18,21 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var b: ActivityMainBinding
 
+    private val pickImage = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            try {
+                contentResolver.takePersistableUriPermission(
+                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (_: Exception) {
+            }
+            Prefs.setBgUri(this, uri.toString())
+            applyBackground()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Prefs.applyTheme(Prefs.isDark(this))
         super.onCreate(savedInstanceState)
@@ -20,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(b.root)
 
         setImmersive()
+        applyBackground()
 
         b.pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = 2
@@ -36,6 +57,42 @@ class MainActivity : AppCompatActivity() {
 
         b.btnTheme.setOnClickListener {
             Prefs.setDark(this, !Prefs.isDark(this)) // triggers recreate via night mode
+        }
+
+        b.btnWall.setOnClickListener { pickImage.launch(arrayOf("image/*")) }
+        b.btnWall.setOnLongClickListener {
+            Prefs.setBgUri(this, null)
+            applyBackground()
+            Toast.makeText(this, getString(R.string.wallpaper_reset), Toast.LENGTH_SHORT).show()
+            true
+        }
+    }
+
+    private fun applyBackground() {
+        val uriStr = Prefs.bgUri(this)
+        if (uriStr == null) {
+            b.imgBackground.visibility = View.GONE
+            b.bgScrim.visibility = View.GONE
+            return
+        }
+        try {
+            contentResolver.openInputStream(Uri.parse(uriStr)).use { input ->
+                val opts = BitmapFactory.Options().apply { inSampleSize = 2 }
+                val bmp = BitmapFactory.decodeStream(input, null, opts)
+                if (bmp != null) {
+                    b.imgBackground.setImageBitmap(bmp)
+                    b.imgBackground.visibility = View.VISIBLE
+                    b.bgScrim.visibility = View.VISIBLE
+                } else {
+                    b.imgBackground.visibility = View.GONE
+                    b.bgScrim.visibility = View.GONE
+                }
+            }
+        } catch (e: Exception) {
+            // URI no longer accessible — fall back to the gradient.
+            Prefs.setBgUri(this, null)
+            b.imgBackground.visibility = View.GONE
+            b.bgScrim.visibility = View.GONE
         }
     }
 

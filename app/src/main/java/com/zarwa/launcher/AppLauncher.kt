@@ -137,6 +137,33 @@ object AppLauncher {
         ctx.startActivity(Intent(ctx, AppDrawerActivity::class.java))
     }
 
+    /** Opens the app drawer in "pick an app to open in split view" mode. */
+    fun openDrawerForSplit(ctx: Context) {
+        ctx.startActivity(
+            Intent(ctx, AppDrawerActivity::class.java).putExtra("adjacent", true)
+        )
+    }
+
+    /**
+     * Best-effort split-screen: launch [pkg] adjacent to the current app.
+     * Works only if the head unit's Android build supports multi-window;
+     * otherwise it just opens normally.
+     */
+    fun launchAdjacent(ctx: Context, pkg: String): Boolean {
+        val intent = ctx.packageManager.getLaunchIntentForPackage(pkg) ?: return false
+        intent.addFlags(
+            Intent.FLAG_ACTIVITY_NEW_TASK
+                or Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT
+                or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        )
+        return try {
+            ctx.startActivity(intent)
+            true
+        } catch (e: ActivityNotFoundException) {
+            false
+        }
+    }
+
     fun toast(ctx: Context, msg: String) {
         Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show()
     }

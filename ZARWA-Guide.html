@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دليل ZARWA Launcher الكامل</title>
+<style>
+  :root{
+    --bg:#0B1220; --bg2:#05070D; --card:rgba(255,255,255,.05); --stroke:rgba(255,255,255,.13);
+    --accent:#4FC3F7; --accent2:#2E8BD6; --txt:#EAF2FB; --muted:#94A6BC; --ok:#4FD08A; --warn:#F0B24B; --danger:#F07070;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:
+    radial-gradient(900px 500px at 85% -5%,rgba(49,92,134,.25),transparent),
+    linear-gradient(160deg,var(--bg),var(--bg2));color:var(--txt);line-height:1.9;padding:0 0 60px}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px}
+  header{text-align:center;padding:54px 20px 30px}
+  .logo{width:78px;height:78px;border-radius:22px;background:linear-gradient(135deg,var(--accent),#7a4fd4);
+    display:inline-flex;align-items:center;justify-content:center;font-size:42px;font-weight:800;color:#06121f;
+    box-shadow:0 10px 30px rgba(79,195,247,.3)}
+  h1{font-size:32px;margin:18px 0 6px;font-weight:700}
+  .sub{color:var(--muted);font-size:16px}
+  .badge{display:inline-block;margin-top:14px;background:var(--card);border:1px solid var(--stroke);
+    border-radius:30px;padding:7px 18px;font-size:13px;color:var(--muted)}
+  .toc{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px 26px;margin:24px 0}
+  .toc h3{margin:0 0 10px;font-size:15px;color:var(--accent)}
+  .toc ol{margin:0;padding-inline-start:20px;columns:2;column-gap:30px}
+  .toc a{color:var(--txt);text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+  section{background:var(--card);border:1px solid var(--stroke);border-radius:20px;padding:26px 30px;margin:20px 0}
+  h2{font-size:23px;margin:0 0 4px;display:flex;align-items:center;gap:12px}
+  .n{width:38px;height:38px;flex:0 0 auto;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#06121f;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+  h3{font-size:17px;margin:22px 0 6px;color:var(--accent)}
+  p{margin:8px 0}
+  ol.steps{padding-inline-start:0;list-style:none;counter-reset:s}
+  ol.steps>li{counter-increment:s;position:relative;padding:10px 44px 10px 0;margin:6px 0;border-bottom:1px dashed rgba(255,255,255,.07)}
+  ol.steps>li:last-child{border-bottom:0}
+  ol.steps>li::before{content:counter(s);position:absolute;right:0;top:9px;width:28px;height:28px;
+    background:rgba(79,195,247,.16);border:1px solid var(--stroke);border-radius:8px;color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  code,.code{background:#020509;border:1px solid var(--stroke);border-radius:8px;padding:2px 8px;
+    font-family:Consolas,monospace;direction:ltr;display:inline-block;color:#8fe0ff;font-size:13px}
+  pre{background:#020509;border:1px solid var(--stroke);border-radius:12px;padding:14px 16px;overflow-x:auto;direction:ltr}
+  pre code{border:0;padding:0;background:none}
+  .box{border-radius:14px;padding:14px 18px;margin:14px 0;border:1px solid}
+  .tip{background:rgba(79,195,247,.08);border-color:rgba(79,195,247,.35)}
+  .ok{background:rgba(79,208,138,.08);border-color:rgba(79,208,138,.35)}
+  .warn{background:rgba(240,178,75,.08);border-color:rgba(240,178,75,.35)}
+  .danger{background:rgba(240,112,112,.08);border-color:rgba(240,112,112,.4)}
+  .box b{color:#fff}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{border:1px solid var(--stroke);padding:10px 12px;text-align:right}
+  th{background:rgba(255,255,255,.05);color:var(--accent)}
+  .pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700}
+  .p-ok{background:rgba(79,208,138,.15);color:var(--ok)}
+  .p-warn{background:rgba(240,178,75,.15);color:var(--warn)}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
+  a.link{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Z</div>
+  <h1>دليل ZARWA Launcher الكامل</h1>
+  <div class="sub">لانشر أندرويد بريميوم لشاشة السيارة — من الصفر لحد ما يشتغل</div>
+  <div class="badge">مخصوص لوحدتك: Android 14 · T100 / A100 · شاشة 1280×720 · 2GB RAM</div>
+</header>
+
+<div class="wrap">
+
+  <div class="toc">
+    <h3>المحتويات</h3>
+    <ol>
+      <li><a href="#s1">إيه هو ZARWA</a></li>
+      <li><a href="#s2">تحميل الـ APK</a></li>
+      <li><a href="#s3">تركيبه على الشاشة</a></li>
+      <li><a href="#s4">التجربة الأولى</a></li>
+      <li><a href="#s5">تخليه الافتراضي</a></li>
+      <li><a href="#s6">الربط مع سيستم العربية</a></li>
+      <li><a href="#s7">أزرار الدركسيون</a></li>
+      <li><a href="#s8">تفعيل قراءة الموسيقى</a></li>
+      <li><a href="#s9">ADB — الشرح والتسطيب</a></li>
+      <li><a href="#s10">حل المشاكل</a></li>
+      <li><a href="#s11">التخصيص</a></li>
+    </ol>
+  </div>
+
+  <section id="s1">
+    <h2><span class="n">1</span> إيه هو ZARWA Launcher؟</h2>
+    <p>هو <b>الواجهة الرئيسية</b> لشاشة عربيتك — بيقعد فوق نظام الأندرويد الموجود (مش بيستبدله)، فأي غلطة ترجع للانشر الأصلي بأمان. بيديك تحكّم كامل في الشكل والتقسيم والثيمات، وبيفتح كل التطبيقات.</p>
+    <h3>المميزات</h3>
+    <ul>
+      <li><b>صفحتين</b> تسحب بينهم + زرار <b>تبديل داكن / فاتح</b>.</li>
+      <li>ساعة كبيرة + تاريخ عربي + <b>ويدجت طقس حقيقي</b> (من الإنترنت).</li>
+      <li><b>مشغّل ميديا غني</b>: صورة الأغنية + الاسم + شريط تقدّم + أزرار.</li>
+      <li>كارت ملاحة + دوك تطبيقات (هاتف · خرائط · فيديو · راديو · كاميرا · إعدادات).</li>
+      <li>قائمة كل التطبيقات مع بحث.</li>
+    </ul>
+  </section>
+
+  <section id="s2">
+    <h2><span class="n">2</span> تحميل الـ APK من GitHub</h2>
+    <p>الـ APK بيتبني في السحابة أول ما ترفع أي تعديل — إنت مش محتاج تسطّب أي برنامج.</p>
+    <ol class="steps">
+      <li>افتح صفحة الريبو بتاعك على GitHub → تاب <b>Actions</b>.</li>
+      <li>اضغط على آخر بناء عليه علامة ✅ خضرا.</li>
+      <li>انزل لآخر الصفحة لقسم <b>Artifacts</b>.</li>
+      <li>اضغط على <span class="code">ZarwaLauncher-debug-apk</span> → هينزل ملف zip.</li>
+      <li>فك الضغط (Extract) → جواه <span class="code">app-debug.apk</span> ← ده اللانشر.</li>
+    </ol>
+    <div class="box tip">💡 كل ما تعدّل أي حاجة وترفعها (Push)، بيتعمل APK جديد تلقائياً في دقايق.</div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="n">3</span> تركيبه على الشاشة</h2>
+    <h3>الطريقة الأسهل — فلاشة USB</h3>
+    <ol class="steps">
+      <li>انسخ <span class="code">app-debug.apk</span> على فلاشة.</li>
+      <li>حطها في الشاشة، افتح <b>File Manager</b> واضغط على الملف.</li>
+      <li>لو طلب <b>Unknown sources</b> → وافق (Settings → Security → Allow).</li>
+      <li>اضغط <b>Install</b> ← بعدها <b>Open</b>.</li>
+    </ol>
+    <h3>الطريقة الاحترافية — ADB</h3>
+    <pre><code>adb install -r app-debug.apk</code></pre>
+  </section>
+
+  <section id="s4">
+    <h2><span class="n">4</span> التجربة الأولى</h2>
+    <div class="box warn">⚠️ <b>مهم:</b> أول مرة جرّبه كتطبيق عادي — <b>متخليهوش الافتراضي</b> لحد ما تتأكد إنه شغّال كويس عندك.</div>
+    <p>افتحه وجرّب: الساعة، الطقس، زرار الداكن/الفاتح، اسحب للصفحة التانية (كل التطبيقات)، اضغط على الأيقونات وشوفها بتفتح صح.</p>
+  </section>
+
+  <section id="s5">
+    <h2><span class="n">5</span> تخليه اللانشر الافتراضي</h2>
+    <h3>الطريقة العادية</h3>
+    <p>اضغط زرار <b>Home</b> في الشاشة → المفروض يسألك تختار لانشر → اختار <b>ZARWA</b> واضغط <b>Always / دائماً</b>.</p>
+    <h3>لو الشاشة مقفولة ومش بتديك الاختيار (شائع في الوحدات الصينية)</h3>
+    <p>استخدم ADB من الكمبيوتر:</p>
+    <pre><code>adb shell cmd package set-home-activity com.zarwa.launcher/.MainActivity</code></pre>
+    <div class="box danger">🛑 <b>متعملش disable للانشر الأصلي</b> غير لما تتأكد إن ZARWA شغّال، عشان متبقاش من غير شاشة رئيسية. للرجوع في أي وقت:
+    <pre style="margin-top:8px"><code>adb shell cmd package set-home-activity &lt;package-اللانشر-الأصلي&gt;</code></pre></div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="n">6</span> الربط مع سيستم العربية</h2>
+    <p>اللانشr بيتكامل مع نظام الوحدة بـ 3 طرق:</p>
+    <table>
+      <tr><th>الحاجة</th><th>بتتربط إزاي</th><th>الحالة</th></tr>
+      <tr><td>التطبيقات الأصلية (راديو · كاميرا · بلوتوث · إعدادات)</td><td>اللانشر بينده تطبيقات الوحدة نفسها ويفتحها</td><td><span class="pill p-ok">شغّال</span></td></tr>
+      <tr><td>أزرار الدركسيون (تشغيل · صوت · تالي)</td><td>عن طريق نظام الميديا في الأندرويد تلقائياً</td><td><span class="pill p-ok">شغّال</span></td></tr>
+      <tr><td>التكييف · البنزين · الأبواب · الإطارات</td><td>محتاج CAN decoder يقرأ بيانات العربية</td><td><span class="pill p-warn">CAN Unknown</span></td></tr>
+    </table>
+    <div class="box tip">الخلاصة: اللانشر <b>متكامل بالكامل</b> لكل حاجة رقمية وبيفتح كل تطبيقات الوحدة. بس بيانات العربية نفسها (تكييف/بنزين) محتاجة الوحدة تكون قارية الـ CAN — ودلوقتي شاشتك بتقول <span class="code">CAN version: Unknown</span>، يعني الوحدة نفسها مش قارياه، فالويدجتس دي للعرض لحد ما نظبطه.</div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="n">7</span> أزرار الدركسيون</h2>
+    <ul>
+      <li><b>أزرار الميديا</b> (تشغيل / تالي / صوت): بتشتغل تلقائياً — اللانشر بيمرّرها للمشغّل.</li>
+      <li><b>أزرار الحركة</b> (فوق / تحت / OK): بتنقّلك بين العناصر وبتفتح المختار (بيتحدّد بإطار أزرق).</li>
+    </ul>
+    <p>عايز تعرف كل زرار بيبعت إيه بالظبط عشان نبرمجه؟ وصّل الشاشة بـ ADB وشغّل:</p>
+    <pre><code>adb shell getevent -l</code></pre>
+    <p>اضغط الأزرار، وابعت اللي يظهر، ونربط كل زرار بالوظيفة اللي إنت عايزها.</p>
+  </section>
+
+  <section id="s8">
+    <h2><span class="n">8</span> تفعيل قراءة الموسيقى</h2>
+    <p>عشان ويدجت الميديا يبيّن اسم الأغنية وصورتها:</p>
+    <ol class="steps">
+      <li>في اللانشر، اضغط على زرار التشغيل في كارت الميديا مرة.</li>
+      <li>هيفتحلك إعدادات <b>Notification access</b>.</li>
+      <li>فعّل <b>ZARWA</b> من القائمة.</li>
+    </ol>
+    <div class="box tip">من غير الخطوة دي الأزرار برضه بتشتغل، بس مش هيبان اسم الأغنية والصورة.</div>
+  </section>
+
+  <section id="s9">
+    <h2><span class="n">9</span> ADB — يعني إيه وإزاي تستخدمه</h2>
+    <p><b>ADB</b> = جسر بين الكمبيوتر والأندرويد. بتوصّل الشاشة بالكمبيوتر وتتحكم فيها بأوامر بسيطة.</p>
+    <h3>التسطيب (مرة واحدة)</h3>
+    <ol class="steps">
+      <li>نزّل <b>Platform Tools</b> من موقع أندرويد الرسمي (ابحث: "SDK Platform Tools").</li>
+      <li>فك الضغط في فولدر على الكمبيوتر (مثلاً <span class="code">C:\adb</span>).</li>
+      <li>في الشاشة: فعّل <b>Developer Options</b> ثم <b>USB Debugging</b>.</li>
+      <li>وصّل الشاشة بالكمبيوتر بكابل USB، أو استخدم ADB واي فاي لو الوحدة بتدعمه.</li>
+      <li>افتح موجّه الأوامر في فولدر adb واكتب <span class="code">adb devices</span> — المفروض تظهر الشاشة.</li>
+    </ol>
+    <div class="box tip">مش لازم دلوقتي — اللانشر بيشتغل من غيره. بس مفيد لو حبينا نظبط الافتراضي أو الأزرار أو الـ CAN.</div>
+  </section>
+
+  <section id="s10">
+    <h2><span class="n">10</span> حل المشاكل الشائعة</h2>
+    <table>
+      <tr><th>المشكلة</th><th>الحل</th></tr>
+      <tr><td>الطقس مش بيظهر</td><td>اتأكد إن الشاشة متصلة بالإنترنت (واي فاي).</td></tr>
+      <tr><td>اسم الأغنية مش بيبان</td><td>فعّل Notification access (قسم 8).</td></tr>
+      <tr><td>زرار مش بيفتح التطبيق الصح</td><td>بيفتحلك قائمة التطبيقات — اختار منها؛ ونقدر نظبطه بدقة بالـ ADB.</td></tr>
+      <tr><td>عايز ترجع للانشر الأصلي</td><td>Settings → Apps → Default apps → Home، واختار الأصلي.</td></tr>
+      <tr><td>البناء فشل على GitHub</td><td>افتح Actions → البناء الأحمر → صوّر رسالة الغلط وابعتها.</td></tr>
+    </table>
+  </section>
+
+  <section id="s11">
+    <h2><span class="n">11</span> التخصيص</h2>
+    <table>
+      <tr><th>عايز تغيّر</th><th>الملف</th></tr>
+      <tr><td>المربعات وترتيبها</td><td><span class="code">DashboardFragment.kt</span></td></tr>
+      <tr><td>إيه اللي كل زرار بيفتحه</td><td><span class="code">AppLauncher.kt</span></td></tr>
+      <tr><td>الألوان (داكن وفاتح)</td><td><span class="code">values/colors.xml</span> و <span class="code">values-night/colors.xml</span></td></tr>
+      <tr><td>الخلفية</td><td><span class="code">drawable/bg_gradient.xml</span></td></tr>
+      <tr><td>مدينة الطقس</td><td><span class="code">Prefs.kt</span> (خطوط الطول والعرض)</td></tr>
+    </table>
+    <div class="box ok">✅ عايز إضافات؟ تقسيم شاشة حقيقي · ويدجت طقس بالساعة · خلفية صورة تختارها · ربط CAN — كلها ممكنة، بس اطلبها.</div>
+  </section>
+
+  <footer>
+    ZARWA Launcher · دليل الاستخدام الكامل · صُمّم مخصوص لعربيتك 🚗
+  </footer>
+</div>
+</body>
+</html>

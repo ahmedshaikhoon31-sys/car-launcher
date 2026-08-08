@@ -41,6 +41,13 @@
             android:parentActivityName=".MainActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".weather.WeatherActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
         <!-- Lets the launcher read the currently-playing media session
              (album art, title, controls). User grants access in Settings. -->
         <service

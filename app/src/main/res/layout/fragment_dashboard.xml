@@ -311,6 +311,7 @@
         <ImageButton android:id="@+id/dockVideo" style="@style/DockIcon" android:src="@drawable/ic_video" />
         <ImageButton android:id="@+id/dockRadio" style="@style/DockIcon" android:src="@drawable/ic_radio" />
         <ImageButton android:id="@+id/dockCamera" style="@style/DockIcon" android:src="@drawable/ic_camera" />
+        <ImageButton android:id="@+id/dockSplit" style="@style/DockIcon" android:src="@drawable/ic_split" />
         <ImageButton android:id="@+id/dockSettings" style="@style/DockIcon" android:src="@drawable/ic_settings" />
         <ImageButton android:id="@+id/dockApps" style="@style/DockIcon" android:src="@drawable/ic_apps" />
     </LinearLayout>
