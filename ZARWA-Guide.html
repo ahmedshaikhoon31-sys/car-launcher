@@ -50,20 +50,21 @@
   .danger{background:rgba(240,112,112,.08);border-color:rgba(240,112,112,.4)}
   .box b{color:#fff}
   table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
-  th,td{border:1px solid var(--stroke);padding:10px 12px;text-align:right}
+  th,td{border:1px solid var(--stroke);padding:10px 12px;text-align:right;vertical-align:top}
   th{background:rgba(255,255,255,.05);color:var(--accent)}
   .pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700}
   .p-ok{background:rgba(79,208,138,.15);color:var(--ok)}
   .p-warn{background:rgba(240,178,75,.15);color:var(--warn)}
+  .swatches{display:flex;gap:10px;margin:12px 0;flex-wrap:wrap}
+  .sw{width:42px;height:42px;border-radius:12px;border:1px solid var(--stroke)}
   footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
-  a.link{color:var(--accent)}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">Z</div>
   <h1>دليل ZARWA Launcher الكامل</h1>
-  <div class="sub">لانشر أندرويد بريميوم لشاشة السيارة — من الصفر لحد ما يشتغل</div>
+  <div class="sub">لانشر أندرويد بريميوم لشاشة السيارة — كل المميزات والخطوات</div>
   <div class="badge">مخصوص لوحدتك: Android 14 · T100 / A100 · شاشة 1280×720 · 2GB RAM</div>
 </header>
 
@@ -75,27 +76,32 @@
       <li><a href="#s1">إيه هو ZARWA</a></li>
       <li><a href="#s2">تحميل الـ APK</a></li>
       <li><a href="#s3">تركيبه على الشاشة</a></li>
-      <li><a href="#s4">التجربة الأولى</a></li>
-      <li><a href="#s5">تخليه الافتراضي</a></li>
-      <li><a href="#s6">الربط مع سيستم العربية</a></li>
-      <li><a href="#s7">أزرار الدركسيون</a></li>
-      <li><a href="#s8">تفعيل قراءة الموسيقى</a></li>
-      <li><a href="#s9">ADB — الشرح والتسطيب</a></li>
-      <li><a href="#s10">حل المشاكل</a></li>
-      <li><a href="#s11">التخصيص</a></li>
+      <li><a href="#s4">الصفحات الثلاثة</a></li>
+      <li><a href="#s5">التقسيم القابل للتخصيص</a></li>
+      <li><a href="#s6">الثيمات والخلفيات</a></li>
+      <li><a href="#s7">الطقس بالساعة</a></li>
+      <li><a href="#s8">تقسيم الشاشة</a></li>
+      <li><a href="#s9">تفعيل قراءة الموسيقى</a></li>
+      <li><a href="#s10">تخليه الافتراضي</a></li>
+      <li><a href="#s11">الربط مع العربية + CAN</a></li>
+      <li><a href="#s12">ADB — الشرح</a></li>
+      <li><a href="#s13">حل المشاكل</a></li>
     </ol>
   </div>
 
   <section id="s1">
     <h2><span class="n">1</span> إيه هو ZARWA Launcher؟</h2>
-    <p>هو <b>الواجهة الرئيسية</b> لشاشة عربيتك — بيقعد فوق نظام الأندرويد الموجود (مش بيستبدله)، فأي غلطة ترجع للانشر الأصلي بأمان. بيديك تحكّم كامل في الشكل والتقسيم والثيمات، وبيفتح كل التطبيقات.</p>
-    <h3>المميزات</h3>
+    <p>هو <b>الواجهة الرئيسية</b> لشاشة عربيتك — بيقعد فوق نظام الأندرويد الموجود (مش بيستبدله)، فأي غلطة ترجع للانشر الأصلي بأمان.</p>
+    <h3>كل المميزات</h3>
     <ul>
-      <li><b>صفحتين</b> تسحب بينهم + زرار <b>تبديل داكن / فاتح</b>.</li>
-      <li>ساعة كبيرة + تاريخ عربي + <b>ويدجت طقس حقيقي</b> (من الإنترنت).</li>
-      <li><b>مشغّل ميديا غني</b>: صورة الأغنية + الاسم + شريط تقدّم + أزرار.</li>
-      <li>كارت ملاحة + دوك تطبيقات (هاتف · خرائط · فيديو · راديو · كاميرا · إعدادات).</li>
-      <li>قائمة كل التطبيقات مع بحث.</li>
+      <li><b>3 صفحات</b> تسحب بينهم + زرار <b>داكن / فاتح</b>.</li>
+      <li><b>5 ثيمات ألوان</b> جاهزة: أزرق · ذهبي · أخضر · بنفسجي · أحمر.</li>
+      <li><b>خلفية</b> من صورك أو من لينك على النت مباشرة.</li>
+      <li><b>تقسيم قابل للتخصيص</b> لحد 8 مربعات (تطبيقات + ويدجتس).</li>
+      <li>ساعة · تاريخ عربي · <b>طقس حقيقي + بالساعة</b>.</li>
+      <li><b>مشغّل ميديا غني</b>: صورة + اسم + شريط تقدّم + أزرار.</li>
+      <li>كارت ملاحة · دوك تطبيقات · <b>تقسيم شاشة</b> · قائمة كل التطبيقات مع بحث.</li>
+      <li>دعم أزرار الدركسيون + <b>أساس CAN</b> جاهز لبيانات العربية.</li>
     </ul>
   </section>
 
@@ -103,116 +109,150 @@
     <h2><span class="n">2</span> تحميل الـ APK من GitHub</h2>
     <p>الـ APK بيتبني في السحابة أول ما ترفع أي تعديل — إنت مش محتاج تسطّب أي برنامج.</p>
     <ol class="steps">
-      <li>افتح صفحة الريبو بتاعك على GitHub → تاب <b>Actions</b>.</li>
+      <li>افتح صفحة الريبو على GitHub → تاب <b>Actions</b>.</li>
       <li>اضغط على آخر بناء عليه علامة ✅ خضرا.</li>
       <li>انزل لآخر الصفحة لقسم <b>Artifacts</b>.</li>
       <li>اضغط على <span class="code">ZarwaLauncher-debug-apk</span> → هينزل ملف zip.</li>
-      <li>فك الضغط (Extract) → جواه <span class="code">app-debug.apk</span> ← ده اللانشر.</li>
+      <li>فك الضغط → جواه <span class="code">app-debug.apk</span> ← ده اللانشر.</li>
     </ol>
-    <div class="box tip">💡 كل ما تعدّل أي حاجة وترفعها (Push)، بيتعمل APK جديد تلقائياً في دقايق.</div>
   </section>
 
   <section id="s3">
     <h2><span class="n">3</span> تركيبه على الشاشة</h2>
     <h3>الطريقة الأسهل — فلاشة USB</h3>
     <ol class="steps">
-      <li>انسخ <span class="code">app-debug.apk</span> على فلاشة.</li>
-      <li>حطها في الشاشة، افتح <b>File Manager</b> واضغط على الملف.</li>
-      <li>لو طلب <b>Unknown sources</b> → وافق (Settings → Security → Allow).</li>
+      <li>انسخ <span class="code">app-debug.apk</span> على فلاشة وحطها في الشاشة.</li>
+      <li>افتح <b>File Manager</b> واضغط على الملف.</li>
+      <li>لو طلب <b>Unknown sources</b> → وافق.</li>
       <li>اضغط <b>Install</b> ← بعدها <b>Open</b>.</li>
     </ol>
-    <h3>الطريقة الاحترافية — ADB</h3>
-    <pre><code>adb install -r app-debug.apk</code></pre>
+    <div class="box warn">⚠️ أول مرة جرّبه كتطبيق عادي — <b>متخليهوش الافتراضي</b> لحد ما تتأكد إنه شغّال كويس.</div>
   </section>
 
   <section id="s4">
-    <h2><span class="n">4</span> التجربة الأولى</h2>
-    <div class="box warn">⚠️ <b>مهم:</b> أول مرة جرّبه كتطبيق عادي — <b>متخليهوش الافتراضي</b> لحد ما تتأكد إنه شغّال كويس عندك.</div>
-    <p>افتحه وجرّب: الساعة، الطقس، زرار الداكن/الفاتح، اسحب للصفحة التانية (كل التطبيقات)، اضغط على الأيقونات وشوفها بتفتح صح.</p>
+    <h2><span class="n">4</span> الصفحات الثلاثة</h2>
+    <p>اسحب يمين/شمال للتنقّل بين 3 صفحات (النقط تحت بتوريك إنت فين):</p>
+    <table>
+      <tr><th>الصفحة</th><th>فيها إيه</th></tr>
+      <tr><td>1 — الداشبورد</td><td>ساعة · طقس · ميديا · ملاحة · تكييف/بنزين · دوك تطبيقات</td></tr>
+      <tr><td>2 — التخصيص</td><td>مربعاتك بترتيبك (لحد 8) — تطبيقات وويدجتس</td></tr>
+      <tr><td>3 — التطبيقات</td><td>كل التطبيقات المتسطّبة + بحث</td></tr>
+    </table>
+    <p>تحت خالص فيه زرارين: <b>🖼️ الخلفية</b> (شمال) و <b>◐ الوضع الداكن/الفاتح</b> (يمين).</p>
   </section>
 
   <section id="s5">
-    <h2><span class="n">5</span> تخليه اللانشر الافتراضي</h2>
-    <h3>الطريقة العادية</h3>
-    <p>اضغط زرار <b>Home</b> في الشاشة → المفروض يسألك تختار لانشر → اختار <b>ZARWA</b> واضغط <b>Always / دائماً</b>.</p>
-    <h3>لو الشاشة مقفولة ومش بتديك الاختيار (شائع في الوحدات الصينية)</h3>
-    <p>استخدم ADB من الكمبيوتر:</p>
-    <pre><code>adb shell cmd package set-home-activity com.zarwa.launcher/.MainActivity</code></pre>
-    <div class="box danger">🛑 <b>متعملش disable للانشر الأصلي</b> غير لما تتأكد إن ZARWA شغّال، عشان متبقاش من غير شاشة رئيسية. للرجوع في أي وقت:
-    <pre style="margin-top:8px"><code>adb shell cmd package set-home-activity &lt;package-اللانشر-الأصلي&gt;</code></pre></div>
+    <h2><span class="n">5</span> التقسيم القابل للتخصيص (لحد 8)</h2>
+    <p>في <b>صفحة التخصيص</b> (الصفحة الوسطى):</p>
+    <ol class="steps">
+      <li>فوق فيه أزرار <b>4 / 6 / 8</b> — اختار عدد المربعات اللي عايزها.</li>
+      <li>اضغط زرار <b>✏️ التعديل</b> (فوق يمين) عشان تفعّل وضع التعديل.</li>
+      <li>اضغط أي مربع → تختار تحطّ فيه: <b>تطبيق · ساعة · طقس · ميديا · خرائط · فاضي</b>.</li>
+      <li>لو اخترت "تطبيق" → تظهر قائمة التطبيقات، اختار اللي عايزه.</li>
+      <li>اضغط ✏️ تاني عشان تقفل وضع التعديل — وكل حاجة بتتحفظ تلقائي.</li>
+    </ol>
+    <div class="box tip">من غير وضع التعديل: الضغط على المربع <b>بيشغّله</b> (يفتح التطبيق / يشغّل الميديا / يفتح الخرائط).</div>
   </section>
 
   <section id="s6">
-    <h2><span class="n">6</span> الربط مع سيستم العربية</h2>
-    <p>اللانشr بيتكامل مع نظام الوحدة بـ 3 طرق:</p>
-    <table>
-      <tr><th>الحاجة</th><th>بتتربط إزاي</th><th>الحالة</th></tr>
-      <tr><td>التطبيقات الأصلية (راديو · كاميرا · بلوتوث · إعدادات)</td><td>اللانشر بينده تطبيقات الوحدة نفسها ويفتحها</td><td><span class="pill p-ok">شغّال</span></td></tr>
-      <tr><td>أزرار الدركسيون (تشغيل · صوت · تالي)</td><td>عن طريق نظام الميديا في الأندرويد تلقائياً</td><td><span class="pill p-ok">شغّال</span></td></tr>
-      <tr><td>التكييف · البنزين · الأبواب · الإطارات</td><td>محتاج CAN decoder يقرأ بيانات العربية</td><td><span class="pill p-warn">CAN Unknown</span></td></tr>
-    </table>
-    <div class="box tip">الخلاصة: اللانشر <b>متكامل بالكامل</b> لكل حاجة رقمية وبيفتح كل تطبيقات الوحدة. بس بيانات العربية نفسها (تكييف/بنزين) محتاجة الوحدة تكون قارية الـ CAN — ودلوقتي شاشتك بتقول <span class="code">CAN version: Unknown</span>، يعني الوحدة نفسها مش قارياه، فالويدجتس دي للعرض لحد ما نظبطه.</div>
+    <h2><span class="n">6</span> الثيمات والخلفيات</h2>
+    <h3>ثيمات الألوان</h3>
+    <p><b>اضغط ضغطة مطوّلة</b> على زرار الوضع (◐ تحت يمين) → تظهر قائمة الألوان:</p>
+    <div class="swatches">
+      <div class="sw" style="background:#4FC3F7"></div>
+      <div class="sw" style="background:#F0B24B"></div>
+      <div class="sw" style="background:#4FD08A"></div>
+      <div class="sw" style="background:#A98BF0"></div>
+      <div class="sw" style="background:#F07070"></div>
+    </div>
+    <p>أزرق · ذهبي · أخضر · بنفسجي · أحمر — اختار وهيتغيّر لون اللانشر كله فوراً. والضغطة العادية على نفس الزرار بتبدّل <b>داكن/فاتح</b>.</p>
+    <h3>الخلفية</h3>
+    <p>اضغط زرار <b>🖼️ الخلفية</b> (تحت شمال) → تظهر 3 اختيارات:</p>
+    <ul>
+      <li><b>من صور جهازي</b> — تختار أي صورة موجودة عندك.</li>
+      <li><b>من لينك على النت</b> — تلصق لينك صورة واللانشر ينزّلها ويحطها.</li>
+      <li><b>رجوع للخلفية الأصلية</b> — يرجّع التدرّج الأصلي.</li>
+    </ul>
+    <div class="box tip">💡 عايز صورة من النت؟ افتحها في المتصفح، انسخ لينك الصورة (Copy image address)، والصقه في "من لينك على النت".</div>
   </section>
 
   <section id="s7">
-    <h2><span class="n">7</span> أزرار الدركسيون</h2>
-    <ul>
-      <li><b>أزرار الميديا</b> (تشغيل / تالي / صوت): بتشتغل تلقائياً — اللانشر بيمرّرها للمشغّل.</li>
-      <li><b>أزرار الحركة</b> (فوق / تحت / OK): بتنقّلك بين العناصر وبتفتح المختار (بيتحدّد بإطار أزرق).</li>
-    </ul>
-    <p>عايز تعرف كل زرار بيبعت إيه بالظبط عشان نبرمجه؟ وصّل الشاشة بـ ADB وشغّل:</p>
-    <pre><code>adb shell getevent -l</code></pre>
-    <p>اضغط الأزرار، وابعت اللي يظهر، ونربط كل زرار بالوظيفة اللي إنت عايزها.</p>
+    <h2><span class="n">7</span> الطقس بالساعة</h2>
+    <p>في الداشبورد، <b>اضغط على ويدجت الطقس</b> (تحت الساعة) → يفتحلك صفحة فيها درجة الحرارة الحالية + <b>الساعات الجاية</b> بالتفصيل.</p>
+    <p>الطقس بيتحدّث من الإنترنت تلقائياً (افتراضياً القاهرة — يتغيّر من ملف <span class="code">Prefs.kt</span>).</p>
   </section>
 
   <section id="s8">
-    <h2><span class="n">8</span> تفعيل قراءة الموسيقى</h2>
-    <p>عشان ويدجت الميديا يبيّن اسم الأغنية وصورتها:</p>
-    <ol class="steps">
-      <li>في اللانشر، اضغط على زرار التشغيل في كارت الميديا مرة.</li>
-      <li>هيفتحلك إعدادات <b>Notification access</b>.</li>
-      <li>فعّل <b>ZARWA</b> من القائمة.</li>
-    </ol>
-    <div class="box tip">من غير الخطوة دي الأزرار برضه بتشتغل، بس مش هيبان اسم الأغنية والصورة.</div>
+    <h2><span class="n">8</span> تقسيم الشاشة (تطبيقين)</h2>
+    <p>في دوك الداشبورد فيه أيقونة <b>⬛ التقسيم</b> — اضغطها → اختار تطبيق يفتح <b>جنب</b> اللي شغّال.</p>
+    <div class="box warn">ده تقسيم أندرويد للتطبيقات، وشغّاله <b>يعتمد على دعم وحدتك للـ multi-window</b>. لو الوحدة مش بتدعمه، التطبيق هيفتح عادي على طول الشاشة.</div>
   </section>
 
   <section id="s9">
-    <h2><span class="n">9</span> ADB — يعني إيه وإزاي تستخدمه</h2>
-    <p><b>ADB</b> = جسر بين الكمبيوتر والأندرويد. بتوصّل الشاشة بالكمبيوتر وتتحكم فيها بأوامر بسيطة.</p>
-    <h3>التسطيب (مرة واحدة)</h3>
+    <h2><span class="n">9</span> تفعيل قراءة الموسيقى</h2>
+    <p>عشان ويدجت الميديا يبيّن اسم الأغنية وصورتها:</p>
     <ol class="steps">
-      <li>نزّل <b>Platform Tools</b> من موقع أندرويد الرسمي (ابحث: "SDK Platform Tools").</li>
-      <li>فك الضغط في فولدر على الكمبيوتر (مثلاً <span class="code">C:\adb</span>).</li>
-      <li>في الشاشة: فعّل <b>Developer Options</b> ثم <b>USB Debugging</b>.</li>
-      <li>وصّل الشاشة بالكمبيوتر بكابل USB، أو استخدم ADB واي فاي لو الوحدة بتدعمه.</li>
-      <li>افتح موجّه الأوامر في فولدر adb واكتب <span class="code">adb devices</span> — المفروض تظهر الشاشة.</li>
+      <li>اضغط زرار التشغيل في كارت الميديا مرة.</li>
+      <li>هيفتحلك إعدادات <b>Notification access</b>.</li>
+      <li>فعّل <b>ZARWA</b> من القائمة.</li>
     </ol>
-    <div class="box tip">مش لازم دلوقتي — اللانشر بيشتغل من غيره. بس مفيد لو حبينا نظبط الافتراضي أو الأزرار أو الـ CAN.</div>
   </section>
 
   <section id="s10">
-    <h2><span class="n">10</span> حل المشاكل الشائعة</h2>
-    <table>
-      <tr><th>المشكلة</th><th>الحل</th></tr>
-      <tr><td>الطقس مش بيظهر</td><td>اتأكد إن الشاشة متصلة بالإنترنت (واي فاي).</td></tr>
-      <tr><td>اسم الأغنية مش بيبان</td><td>فعّل Notification access (قسم 8).</td></tr>
-      <tr><td>زرار مش بيفتح التطبيق الصح</td><td>بيفتحلك قائمة التطبيقات — اختار منها؛ ونقدر نظبطه بدقة بالـ ADB.</td></tr>
-      <tr><td>عايز ترجع للانشر الأصلي</td><td>Settings → Apps → Default apps → Home، واختار الأصلي.</td></tr>
-      <tr><td>البناء فشل على GitHub</td><td>افتح Actions → البناء الأحمر → صوّر رسالة الغلط وابعتها.</td></tr>
-    </table>
+    <h2><span class="n">10</span> تخليه اللانشر الافتراضي</h2>
+    <p><b>العادي:</b> اضغط زرار Home → اختار <b>ZARWA</b> → <b>Always</b>.</p>
+    <p><b>لو الشاشة مقفولة</b> — بـ ADB:</p>
+    <pre><code>adb shell cmd package set-home-activity com.zarwa.launcher/.MainActivity</code></pre>
+    <div class="box danger">🛑 متعملش disable للانشر الأصلي غير لما تتأكد إن ZARWA شغّال.</div>
   </section>
 
   <section id="s11">
-    <h2><span class="n">11</span> التخصيص</h2>
+    <h2><span class="n">11</span> الربط مع سيستم العربية + CAN</h2>
     <table>
-      <tr><th>عايز تغيّر</th><th>الملف</th></tr>
-      <tr><td>المربعات وترتيبها</td><td><span class="code">DashboardFragment.kt</span></td></tr>
-      <tr><td>إيه اللي كل زرار بيفتحه</td><td><span class="code">AppLauncher.kt</span></td></tr>
-      <tr><td>الألوان (داكن وفاتح)</td><td><span class="code">values/colors.xml</span> و <span class="code">values-night/colors.xml</span></td></tr>
-      <tr><td>الخلفية</td><td><span class="code">drawable/bg_gradient.xml</span></td></tr>
-      <tr><td>مدينة الطقس</td><td><span class="code">Prefs.kt</span> (خطوط الطول والعرض)</td></tr>
+      <tr><th>الحاجة</th><th>الحالة</th></tr>
+      <tr><td>التطبيقات الأصلية (راديو · كاميرا · بلوتوث · إعدادات)</td><td><span class="pill p-ok">شغّال</span></td></tr>
+      <tr><td>أزرار الدركسيون (ميديا · صوت)</td><td><span class="pill p-ok">شغّال</span></td></tr>
+      <tr><td>التكييف · البنزين · الأبواب (بيانات CAN)</td><td><span class="pill p-warn">محتاج ربط</span></td></tr>
     </table>
-    <div class="box ok">✅ عايز إضافات؟ تقسيم شاشة حقيقي · ويدجت طقس بالساعة · خلفية صورة تختارها · ربط CAN — كلها ممكنة، بس اطلبها.</div>
+    <div class="box warn"><b>مهم:</b> ويدجت التكييف/البنزين <b>مش هيشتغل لوحده</b>. شاشتك بتقول <span class="code">CAN: Unknown</span>.</div>
+    <h3>اختبار سريع (اعمله الأول)</h3>
+    <p>في النظام الأصلي بتاع الشاشة — بيظهر أي بيانات عربية (حرارة تكييف / أبواب / كيلومترات) في أي مكان؟</p>
+    <ul>
+      <li><b>لو لأ</b> → الوحدة مش بتقرا العربية أصلاً (محتاجة كان بوكس متوصّل + اختيار موديل العربية في إعدادات المصنع). مفيش أبليكيشن يقدر يجيب البيانات في الحالة دي.</li>
+      <li><b>لو أيوة</b> → نجيب اللوج ونضيف الصيغة في الكود 👇</li>
+    </ul>
+    <h3>لو الوحدة قارية — جيب اللوج</h3>
+    <ol class="steps">
+      <li>وصّل الشاشة بالكمبيوتر بـ ADB.</li>
+      <li>شغّل: <span class="code">adb logcat -v time &gt; can-log.txt</span></li>
+      <li>وإنت بتسجّل، غيّر درجة التكييف وافتح/اقفل باب كذا مرة.</li>
+      <li>أوقف التسجيل (Ctrl+C) وابعت الملف — وهنربط البيانات بالويدجتس.</li>
+    </ol>
+  </section>
+
+  <section id="s12">
+    <h2><span class="n">12</span> ADB — يعني إيه وإزاي تسطّبه</h2>
+    <p><b>ADB</b> = جسر بين الكمبيوتر والأندرويد، بتتحكم في الشاشة بأوامر بسيطة.</p>
+    <ol class="steps">
+      <li>نزّل <b>SDK Platform Tools</b> من موقع أندرويد الرسمي.</li>
+      <li>فك الضغط في فولدر (مثلاً <span class="code">C:\adb</span>).</li>
+      <li>في الشاشة: فعّل <b>Developer Options</b> ثم <b>USB Debugging</b>.</li>
+      <li>وصّل الشاشة بالكمبيوتر، واكتب <span class="code">adb devices</span> للتأكد.</li>
+    </ol>
+  </section>
+
+  <section id="s13">
+    <h2><span class="n">13</span> حل المشاكل الشائعة</h2>
+    <table>
+      <tr><th>المشكلة</th><th>الحل</th></tr>
+      <tr><td>الطقس مش بيظهر</td><td>اتأكد إن الشاشة متصلة بالإنترنت.</td></tr>
+      <tr><td>اسم الأغنية مش بيبان</td><td>فعّل Notification access (قسم 9).</td></tr>
+      <tr><td>الثيم مش بيتغيّر</td><td>ضغطة <b>مطوّلة</b> على زرار الوضع (◐) مش ضغطة عادية.</td></tr>
+      <tr><td>خلفية اللينك مش بتيجي</td><td>لازم يكون لينك صورة مباشر (ينتهي بـ .jpg/.png) والنت شغّال.</td></tr>
+      <tr><td>تقسيم الشاشة بيفتح عادي</td><td>وحدتك مش بتدعم multi-window — ده طبيعي.</td></tr>
+      <tr><td>التكييف/البنزين فاضي</td><td>محتاج ربط CAN (قسم 11).</td></tr>
+      <tr><td>عايز ترجع للانشر الأصلي</td><td>Settings → Apps → Default apps → Home.</td></tr>
+    </table>
   </section>
 
   <footer>
