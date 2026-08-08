@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,9 +35,23 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon --stacktrace
 
-      - name: Upload APK
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk ZARWA-Launcher.apk
+
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: ZarwaLauncher-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: ZARWA-Launcher.apk
           if-no-files-found: error
+
+      - name: Publish to Release (stable download link)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: ZARWA Launcher — أحدث نسخة
+          files: ZARWA-Launcher.apk
+          make_latest: true
+          body: |
+            آخر نسخة من ZARWA Launcher.
+            نزّل الملف ZARWA-Launcher.apk من تحت وركّبه على الشاشة.
