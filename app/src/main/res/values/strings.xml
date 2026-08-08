@@ -30,4 +30,15 @@
     <string name="split_unsupported">وحدتك مش بتدعم تقسيم الشاشة</string>
     <string name="hourly">الطقس بالساعة</string>
     <string name="now">الآن</string>
+    <string name="customize">تخصيص</string>
+    <string name="edit_mode">وضع التعديل</string>
+    <string name="edit_hint">وضع التعديل مفعّل — اضغط أي مربع عشان تغيّر محتواه</string>
+    <string name="choose_content">اختار محتوى المربع</string>
+    <string name="cell_app">تطبيق</string>
+    <string name="cell_clock">ساعة</string>
+    <string name="cell_weather">طقس</string>
+    <string name="cell_media">ميديا</string>
+    <string name="cell_nav">خرائط</string>
+    <string name="cell_empty">فاضي</string>
+    <string name="choose_app">اختار تطبيق</string>
 </resources>

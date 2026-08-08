@@ -11,6 +11,7 @@ object Prefs {
     private const val KEY_LON = "lon"
     private const val KEY_CITY = "city"
     private const val KEY_BG = "bg_uri"
+    private const val KEY_GRID = "grid_config"
 
     private fun sp(ctx: Context) = ctx.getSharedPreferences(FILE, Context.MODE_PRIVATE)
 
@@ -46,5 +47,12 @@ object Prefs {
 
     fun setBgUri(ctx: Context, uri: String?) {
         sp(ctx).edit().putString(KEY_BG, uri).apply()
+    }
+
+    // Customizable grid config, stored as JSON. Empty = first-run default.
+    fun gridConfig(ctx: Context): String = sp(ctx).getString(KEY_GRID, "") ?: ""
+
+    fun setGridConfig(ctx: Context, json: String) {
+        sp(ctx).edit().putString(KEY_GRID, json).apply()
     }
 }

@@ -43,13 +43,16 @@ class MainActivity : AppCompatActivity() {
         applyBackground()
 
         b.pager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount() = 2
-            override fun createFragment(position: Int) =
-                if (position == 0) DashboardFragment() else AppsFragment()
+            override fun getItemCount() = 3
+            override fun createFragment(position: Int) = when (position) {
+                0 -> DashboardFragment()
+                1 -> CustomFragment()
+                else -> AppsFragment()
+            }
         }
-        b.pager.offscreenPageLimit = 1
+        b.pager.offscreenPageLimit = 2
 
-        buildDots(2)
+        buildDots(3)
         b.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) = updateDots(position)
         })
