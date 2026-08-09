@@ -50,11 +50,16 @@ class CustomFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _b = FragmentCustomBinding.inflate(inflater, container, false)
-        return b.root
+        return try {
+            _b = FragmentCustomBinding.inflate(inflater, container, false)
+            b.root
+        } catch (e: Throwable) {
+            errorView(inflater.context, "التخصيص", e)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (_b == null) return
         val ctx = requireContext()
         val cfg = GridStore.load(ctx)
         count = cfg.first
@@ -179,6 +184,7 @@ class CustomFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        if (_b == null) return
         handler.post(tick)
         fetchWeather()
     }

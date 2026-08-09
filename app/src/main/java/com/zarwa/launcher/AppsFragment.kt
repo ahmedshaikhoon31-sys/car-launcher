@@ -20,11 +20,16 @@ class AppsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _b = FragmentAppsBinding.inflate(inflater, container, false)
-        return b.root
+        return try {
+            _b = FragmentAppsBinding.inflate(inflater, container, false)
+            b.root
+        } catch (e: Throwable) {
+            errorView(inflater.context, "التطبيقات", e)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (_b == null) return
         val ctx = requireContext()
         adapter = AppsAdapter { app -> AppLauncher.launchPackage(ctx, app.packageName) }
         b.gridApps.layoutManager = GridLayoutManager(ctx, 6)

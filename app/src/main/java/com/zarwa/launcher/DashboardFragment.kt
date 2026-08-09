@@ -45,11 +45,16 @@ class DashboardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _b = FragmentDashboardBinding.inflate(inflater, container, false)
-        return b.root
+        return try {
+            _b = FragmentDashboardBinding.inflate(inflater, container, false)
+            b.root
+        } catch (e: Throwable) {
+            errorView(inflater.context, "الداشبورد", e)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (_b == null) return
         val ctx = requireContext()
 
         // Media controls
@@ -165,13 +170,18 @@ class DashboardFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        if (_b == null) return
         handler.post(tick)
         val ctx = context ?: return
-        val rec = CanReceiver { activity?.runOnUiThread { if (_b != null) updateCan() } }
-        canReceiver = rec
-        ContextCompat.registerReceiver(
-            ctx, rec, CanBus.intentFilter(), ContextCompat.RECEIVER_EXPORTED
-        )
+        try {
+            val rec = CanReceiver { activity?.runOnUiThread { if (_b != null) updateCan() } }
+            canReceiver = rec
+            ContextCompat.registerReceiver(
+                ctx, rec, CanBus.intentFilter(), ContextCompat.RECEIVER_EXPORTED
+            )
+        } catch (_: Exception) {
+            // CAN listener is optional — never let it take down the launcher.
+        }
     }
 
     override fun onPause() {
