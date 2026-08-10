@@ -59,4 +59,7 @@
     <string name="wifi">واي فاي</string>
     <string name="quick_conn">اتصال</string>
     <string name="quick_system">النظام</string>
+    <string name="greet_morning">صباح الخير</string>
+    <string name="greet_afternoon">مساء الخير</string>
+    <string name="greet_evening">مساء الخير</string>
 </resources>

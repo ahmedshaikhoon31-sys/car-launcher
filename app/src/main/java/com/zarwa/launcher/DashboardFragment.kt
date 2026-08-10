@@ -28,6 +28,7 @@ class DashboardFragment : Fragment() {
     private val arLocale = Locale("ar")
     private val timeFmt = SimpleDateFormat("h:mm", Locale.US)
     private val ampmFmt = SimpleDateFormat("a", Locale.US)
+    private val hourFmt = SimpleDateFormat("H", Locale.US)
     private val dateFmt = SimpleDateFormat("EEEE، d MMMM", arLocale)
     private var lastWeatherFetch = 0L
     private var canReceiver: CanReceiver? = null
@@ -100,7 +101,7 @@ class DashboardFragment : Fragment() {
         b.dockApps.setOnClickListener { AppLauncher.openDrawer(ctx) }
 
         // Premium entrance: staggered fade + rise
-        val entrance = listOf(b.txtClock, b.weatherRow, b.mediaCard, b.navCard, b.statusRow, b.dock)
+        val entrance = listOf(b.txtGreeting, b.txtClock, b.weatherRow, b.mediaCard, b.navCard, b.statusRow, b.dock)
         entrance.forEachIndexed { i, v ->
             v.alpha = 0f
             v.translationY = 28f
@@ -116,6 +117,14 @@ class DashboardFragment : Fragment() {
         b.txtClock.text = timeFmt.format(now)
         b.txtAmPm.text = ampmFmt.format(now)
         b.txtDate.text = dateFmt.format(now)
+        val hour = hourFmt.format(now).toIntOrNull() ?: 12
+        b.txtGreeting.setText(
+            when {
+                hour < 12 -> R.string.greet_morning
+                hour < 18 -> R.string.greet_afternoon
+                else -> R.string.greet_evening
+            }
+        )
     }
 
     private fun updateMedia() {
