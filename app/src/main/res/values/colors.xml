@@ -2,9 +2,11 @@
 <!-- LIGHT theme values (default). Dark overrides live in values-night/colors.xml.
      Layouts and drawables reference these names only, so both themes stay in sync. -->
 <resources>
-    <color name="bg_top">#EAF0F8</color>
-    <color name="bg_bottom">#D7E1EE</color>
-    <color name="glow">#33A9CBF0</color>
+    <color name="bg_top">#EDF2FA</color>
+    <color name="bg_mid">#E2EAF4</color>
+    <color name="bg_bottom">#D3DEEC</color>
+    <color name="glow">#3AAFD0F5</color>
+    <color name="glow2">#26B7A9EA</color>
 
     <color name="surface">#FFFFFF</color>
     <color name="stroke">#1A0B1A2E</color>

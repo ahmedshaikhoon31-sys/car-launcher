@@ -56,4 +56,7 @@
     <string name="theme_red">أحمر</string>
     <string name="ok">تمام</string>
     <string name="cancel">إلغاء</string>
+    <string name="wifi">واي فاي</string>
+    <string name="quick_conn">اتصال</string>
+    <string name="quick_system">النظام</string>
 </resources>

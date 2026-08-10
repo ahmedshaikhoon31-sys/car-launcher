@@ -87,6 +87,11 @@ object AppLauncher {
         openDrawer(ctx)
     }
 
+    fun openWifiSettings(ctx: Context) {
+        if (start(ctx, Intent(Settings.ACTION_WIFI_SETTINGS))) return
+        openSettings(ctx)
+    }
+
     fun openBluetoothSettings(ctx: Context) {
         if (start(ctx, Intent(Settings.ACTION_BLUETOOTH_SETTINGS))) return
         // Some units bundle a dedicated BT-music app.

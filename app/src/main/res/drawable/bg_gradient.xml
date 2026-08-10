@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- base diagonal gradient -->
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:angle="115"
+                android:angle="120"
                 android:startColor="@color/bg_top"
+                android:centerColor="@color/bg_mid"
                 android:endColor="@color/bg_bottom"
                 android:type="linear" />
         </shape>
     </item>
+    <!-- soft accent glow near the clock (top-start) -->
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:centerX="0.22"
-                android:centerY="0.30"
-                android:gradientRadius="620"
+                android:centerX="0.18"
+                android:centerY="0.22"
+                android:gradientRadius="720"
                 android:startColor="@color/glow"
+                android:endColor="#00000000"
+                android:type="radial" />
+        </shape>
+    </item>
+    <!-- subtle secondary glow (bottom-end) for depth -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.9"
+                android:centerY="0.95"
+                android:gradientRadius="620"
+                android:startColor="@color/glow2"
                 android:endColor="#00000000"
                 android:type="radial" />
         </shape>

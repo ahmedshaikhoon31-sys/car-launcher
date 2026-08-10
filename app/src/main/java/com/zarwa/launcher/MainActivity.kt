@@ -64,6 +64,15 @@ class MainActivity : AppCompatActivity() {
         })
         updateDots(0)
 
+        // Smooth premium page transition (subtle fade + zoom).
+        b.pager.setPageTransformer { page, position ->
+            val abs = Math.abs(position)
+            page.alpha = (1f - 0.35f * abs).coerceIn(0.4f, 1f)
+            val scale = (1f - 0.05f * abs).coerceIn(0.9f, 1f)
+            page.scaleX = scale
+            page.scaleY = scale
+        }
+
         b.btnTheme.setOnClickListener {
             Prefs.setDark(this, !Prefs.isDark(this)) // day/night toggle (triggers recreate)
         }

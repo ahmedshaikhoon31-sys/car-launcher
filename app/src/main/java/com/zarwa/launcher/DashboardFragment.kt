@@ -36,7 +36,6 @@ class DashboardFragment : Fragment() {
         override fun run() {
             updateClock()
             updateMedia()
-            updateCan()
             maybeRefreshWeather()
             handler.postDelayed(this, 1000)
         }
@@ -74,21 +73,21 @@ class DashboardFragment : Fragment() {
             startActivity(Intent(ctx, WeatherActivity::class.java))
         }
 
-        // Status widgets (decorative until CAN is wired — honest labels + tap opens related app)
-        b.btnClimate.statusIcon.setImageResource(R.drawable.ic_climate)
-        b.btnClimate.statusTitle.text = getString(R.string.climate)
-        b.btnClimate.statusSub.text = getString(R.string.needs_can)
-        b.btnClimate.root.setOnClickListener { AppLauncher.toast(ctx, getString(R.string.needs_can)) }
+        // Quick-action buttons (useful on any unit — no CAN needed)
+        b.btnClimate.statusIcon.setImageResource(R.drawable.ic_wifi)
+        b.btnClimate.statusTitle.text = getString(R.string.wifi)
+        b.btnClimate.statusSub.text = getString(R.string.quick_conn)
+        b.btnClimate.root.setOnClickListener { AppLauncher.openWifiSettings(ctx) }
 
-        b.btnFuel.statusIcon.setImageResource(R.drawable.ic_fuel)
-        b.btnFuel.statusTitle.text = getString(R.string.fuel_range)
-        b.btnFuel.statusSub.text = getString(R.string.needs_can)
-        b.btnFuel.root.setOnClickListener { AppLauncher.toast(ctx, getString(R.string.needs_can)) }
+        b.btnFuel.statusIcon.setImageResource(R.drawable.ic_bluetooth)
+        b.btnFuel.statusTitle.text = getString(R.string.bluetooth)
+        b.btnFuel.statusSub.text = getString(R.string.quick_conn)
+        b.btnFuel.root.setOnClickListener { AppLauncher.openBluetoothSettings(ctx) }
 
-        b.btnCar.statusIcon.setImageResource(R.drawable.ic_car)
-        b.btnCar.statusTitle.text = getString(R.string.car_status)
-        b.btnCar.statusSub.text = getString(R.string.needs_can)
-        b.btnCar.root.setOnClickListener { AppLauncher.toast(ctx, getString(R.string.needs_can)) }
+        b.btnCar.statusIcon.setImageResource(R.drawable.ic_settings)
+        b.btnCar.statusTitle.text = getString(R.string.settings)
+        b.btnCar.statusSub.text = getString(R.string.quick_system)
+        b.btnCar.root.setOnClickListener { AppLauncher.openSettings(ctx) }
 
         // Dock
         b.dockPhone.setOnClickListener { AppLauncher.openPhone(ctx) }
@@ -99,6 +98,17 @@ class DashboardFragment : Fragment() {
         b.dockSplit.setOnClickListener { AppLauncher.openDrawerForSplit(ctx) }
         b.dockSettings.setOnClickListener { AppLauncher.openSettings(ctx) }
         b.dockApps.setOnClickListener { AppLauncher.openDrawer(ctx) }
+
+        // Premium entrance: staggered fade + rise
+        val entrance = listOf(b.txtClock, b.weatherRow, b.mediaCard, b.navCard, b.statusRow, b.dock)
+        entrance.forEachIndexed { i, v ->
+            v.alpha = 0f
+            v.translationY = 28f
+            v.animate().alpha(1f).translationY(0f)
+                .setStartDelay(80L + i * 70L)
+                .setDuration(420L)
+                .start()
+        }
     }
 
     private fun updateClock() {
