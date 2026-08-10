@@ -172,23 +172,12 @@ class DashboardFragment : Fragment() {
         super.onResume()
         if (_b == null) return
         handler.post(tick)
-        val ctx = context ?: return
-        try {
-            val rec = CanReceiver { activity?.runOnUiThread { if (_b != null) updateCan() } }
-            canReceiver = rec
-            ContextCompat.registerReceiver(
-                ctx, rec, CanBus.intentFilter(), ContextCompat.RECEIVER_EXPORTED
-            )
-        } catch (_: Exception) {
-            // CAN listener is optional — never let it take down the launcher.
-        }
+        // CAN receiver disabled (no CAN box on this unit, and it's a reboot suspect).
     }
 
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(tick)
-        canReceiver?.let { try { context?.unregisterReceiver(it) } catch (_: Exception) {} }
-        canReceiver = null
     }
 
     override fun onDestroyView() {

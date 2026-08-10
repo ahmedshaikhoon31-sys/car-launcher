@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 else -> AppsFragment()
             }
         }
-        b.pager.offscreenPageLimit = 2
+        b.pager.offscreenPageLimit = 1
 
         buildDots(3)
         b.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -170,12 +170,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setImmersive() {
-        window.decorView.systemUiVisibility = (
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            )
+        // Keep it minimal — don't hide the navigation bar. Aggressive immersive
+        // flags can restart SystemUI (or the whole unit) on locked head units.
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
 
     private fun buildDots(count: Int) {
