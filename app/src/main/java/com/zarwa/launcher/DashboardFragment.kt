@@ -1,16 +1,16 @@
 package com.zarwa.launcher
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import android.content.Intent
-import androidx.core.content.ContextCompat
-import com.zarwa.launcher.can.CanBus
-import com.zarwa.launcher.can.CanReceiver
 import com.zarwa.launcher.databinding.FragmentDashboardBinding
 import com.zarwa.launcher.media.MediaHub
 import com.zarwa.launcher.weather.WeatherActivity
@@ -31,7 +31,8 @@ class DashboardFragment : Fragment() {
     private val hourFmt = SimpleDateFormat("H", Locale.US)
     private val dateFmt = SimpleDateFormat("EEEE، d MMMM", arLocale)
     private var lastWeatherFetch = 0L
-    private var canReceiver: CanReceiver? = null
+    private val eqAnimators = mutableListOf<ObjectAnimator>()
+    private var eqRunning = false
 
     private val tick = object : Runnable {
         override fun run() {
@@ -100,6 +101,8 @@ class DashboardFragment : Fragment() {
         b.dockSettings.setOnClickListener { AppLauncher.openSettings(ctx) }
         b.dockApps.setOnClickListener { AppLauncher.openDrawer(ctx) }
 
+        setupEqualizer()
+
         // Premium entrance: staggered fade + rise
         val entrance = listOf(b.txtGreeting, b.txtClock, b.weatherRow, b.mediaCard, b.navCard, b.statusRow, b.dock)
         entrance.forEachIndexed { i, v ->
@@ -136,6 +139,7 @@ class DashboardFragment : Fragment() {
             b.mediaProgress.progress = 0
             b.albumArt.setImageDrawable(null)
             b.btnPlay.setImageResource(R.drawable.ic_play)
+            setEqualizerPlaying(false)
             return
         }
         b.mediaHint.visibility = View.GONE
@@ -146,6 +150,7 @@ class DashboardFragment : Fragment() {
             b.mediaProgress.progress = 0
             b.albumArt.setImageDrawable(null)
             b.btnPlay.setImageResource(R.drawable.ic_play)
+            setEqualizerPlaying(false)
             return
         }
         b.txtTrack.text = np.title
@@ -153,23 +158,44 @@ class DashboardFragment : Fragment() {
         if (np.art != null) b.albumArt.setImageBitmap(np.art) else b.albumArt.setImageDrawable(null)
         b.mediaProgress.progress = if (np.progress >= 0) (np.progress * 100).toInt() else 0
         b.btnPlay.setImageResource(if (np.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
+        setEqualizerPlaying(np.isPlaying)
     }
 
-    /** Fill climate/fuel/car widgets from CAN data if any arrived (see CanBus). */
-    private fun updateCan() {
-        val l = CanBus.climateLeft
-        val r = CanBus.climateRight
-        if (l != null || r != null) {
-            b.btnClimate.statusTitle.text = "${l ?: "--"}° / ${r ?: "--"}°"
-            b.btnClimate.statusSub.text = getString(R.string.climate)
+    private fun setupEqualizer() {
+        val ctx = context ?: return
+        b.eqBars.removeAllViews()
+        eqAnimators.forEach { it.cancel() }
+        eqAnimators.clear()
+        val d = resources.displayMetrics.density
+        val barW = (4 * d).toInt()
+        val gap = (2 * d).toInt()
+        repeat(4) { i ->
+            val bar = View(ctx)
+            val lp = LinearLayout.LayoutParams(barW, LinearLayout.LayoutParams.MATCH_PARENT)
+            lp.marginStart = gap; lp.marginEnd = gap
+            bar.layoutParams = lp
+            bar.setBackgroundColor(ContextCompat.getColor(ctx, R.color.accent))
+            b.eqBars.addView(bar)
+            bar.post { bar.pivotY = bar.height.toFloat() }
+            eqAnimators.add(
+                ObjectAnimator.ofFloat(bar, "scaleY", 0.25f, 1f).apply {
+                    duration = 320L + i * 130L
+                    repeatCount = ObjectAnimator.INFINITE
+                    repeatMode = ObjectAnimator.REVERSE
+                }
+            )
         }
-        CanBus.rangeKm?.let {
-            b.btnFuel.statusTitle.text = "$it كم"
-            b.btnFuel.statusSub.text = getString(R.string.fuel_range)
-        }
-        CanBus.doorsLocked?.let {
-            b.btnCar.statusTitle.text = if (it) "مغلقة" else "مفتوحة"
-            b.btnCar.statusSub.text = getString(R.string.car_status)
+    }
+
+    private fun setEqualizerPlaying(playing: Boolean) {
+        if (playing == eqRunning) return
+        eqRunning = playing
+        if (playing) {
+            b.eqBars.visibility = View.VISIBLE
+            eqAnimators.forEach { it.start() }
+        } else {
+            b.eqBars.visibility = View.GONE
+            eqAnimators.forEach { it.cancel() }
         }
     }
 
