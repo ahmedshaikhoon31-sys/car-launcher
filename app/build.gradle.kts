@@ -15,9 +15,24 @@ android {
         versionName = "1.0"
     }
 
+    signingConfigs {
+        // Fixed key so every build (local or CI) is signed identically — this lets
+        // the launcher update in place on the car without an uninstall.
+        create("aura") {
+            storeFile = file("aura.keystore")
+            storePassword = "aura12345"
+            keyAlias = "aura"
+            keyPassword = "aura12345"
+        }
+    }
+
     buildTypes {
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("aura")
+        }
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("aura")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
