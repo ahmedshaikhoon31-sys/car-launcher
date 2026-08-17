@@ -1,4 +1,4 @@
-name: Build ZARWA Launcher APK
+name: Build AURA Launcher APK
 
 on:
   push:
@@ -36,22 +36,22 @@ jobs:
         run: gradle assembleDebug --no-daemon --stacktrace
 
       - name: Rename APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk ZARWA-Launcher.apk
+        run: cp app/build/outputs/apk/debug/app-debug.apk AURA-Launcher.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ZarwaLauncher-debug-apk
-          path: ZARWA-Launcher.apk
+          name: AuraLauncher-debug-apk
+          path: AURA-Launcher.apk
           if-no-files-found: error
 
       - name: Publish to Release (stable download link)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          name: ZARWA Launcher — أحدث نسخة
-          files: ZARWA-Launcher.apk
+          name: AURA Launcher — أحدث نسخة
+          files: AURA-Launcher.apk
           make_latest: true
           body: |
-            آخر نسخة من ZARWA Launcher.
-            نزّل الملف ZARWA-Launcher.apk من تحت وركّبه على الشاشة.
+            آخر نسخة من AURA Launcher.
+            نزّل الملف AURA-Launcher.apk من تحت وركّبه على الشاشة.
