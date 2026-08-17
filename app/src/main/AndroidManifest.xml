@@ -20,12 +20,9 @@
 
         <activity
             android:name=".MainActivity"
-            android:clearTaskOnLaunch="true"
-            android:excludeFromRecents="true"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape"
             android:stateNotNeeded="true"
-            android:configChanges="keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+            android:configChanges="keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|density|fontScale|locale|touchscreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

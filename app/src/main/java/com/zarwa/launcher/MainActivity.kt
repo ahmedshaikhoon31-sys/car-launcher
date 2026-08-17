@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity() {
                 else -> AppsFragment()
             }
         }
-        b.pager.offscreenPageLimit = 1
+        // Default offscreen limit: only the visible page loads at startup → faster
+        // first frame as HOME (important on low-RAM units).
 
         buildDots(3)
         b.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
