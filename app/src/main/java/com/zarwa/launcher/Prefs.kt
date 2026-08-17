@@ -69,6 +69,10 @@ object Prefs {
         2 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Green
         3 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Purple
         4 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Red
+        5 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Turquoise
+        6 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Orange
+        7 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Pink
+        8 -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher_Silver
         else -> com.zarwa.launcher.R.style.Theme_ZarwaLauncher
     }
 }

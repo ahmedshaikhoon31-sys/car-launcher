@@ -54,6 +54,10 @@
     <string name="theme_green">أخضر</string>
     <string name="theme_purple">بنفسجي</string>
     <string name="theme_red">أحمر</string>
+    <string name="theme_turquoise">تركوازي</string>
+    <string name="theme_orange">برتقالي</string>
+    <string name="theme_pink">وردي</string>
+    <string name="theme_silver">فضي</string>
     <string name="ok">تمام</string>
     <string name="cancel">إلغاء</string>
     <string name="wifi">واي فاي</string>

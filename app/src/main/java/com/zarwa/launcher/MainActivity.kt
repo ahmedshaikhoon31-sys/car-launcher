@@ -87,7 +87,9 @@ class MainActivity : AppCompatActivity() {
         val names = arrayOf(
             getString(R.string.theme_blue), getString(R.string.theme_gold),
             getString(R.string.theme_green), getString(R.string.theme_purple),
-            getString(R.string.theme_red)
+            getString(R.string.theme_red), getString(R.string.theme_turquoise),
+            getString(R.string.theme_orange), getString(R.string.theme_pink),
+            getString(R.string.theme_silver)
         )
         AlertDialog.Builder(this)
             .setTitle(R.string.theme_pick)

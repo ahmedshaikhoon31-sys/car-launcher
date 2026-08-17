@@ -41,4 +41,32 @@
         <item name="accentDark">#C74747</item>
         <item name="accentSoft">#2AF07070</item>
     </style>
+
+    <style name="Theme.ZarwaLauncher.Turquoise" parent="Theme.ZarwaLauncher">
+        <item name="colorPrimary">#2ED9C6</item>
+        <item name="accent">#2ED9C6</item>
+        <item name="accentDark">#159C8E</item>
+        <item name="accentSoft">#2A2ED9C6</item>
+    </style>
+
+    <style name="Theme.ZarwaLauncher.Orange" parent="Theme.ZarwaLauncher">
+        <item name="colorPrimary">#FF9142</item>
+        <item name="accent">#FF9142</item>
+        <item name="accentDark">#D3641A</item>
+        <item name="accentSoft">#2AFF9142</item>
+    </style>
+
+    <style name="Theme.ZarwaLauncher.Pink" parent="Theme.ZarwaLauncher">
+        <item name="colorPrimary">#F06AB0</item>
+        <item name="accent">#F06AB0</item>
+        <item name="accentDark">#C7478A</item>
+        <item name="accentSoft">#2AF06AB0</item>
+    </style>
+
+    <style name="Theme.ZarwaLauncher.Silver" parent="Theme.ZarwaLauncher">
+        <item name="colorPrimary">#C2D0E0</item>
+        <item name="accent">#C2D0E0</item>
+        <item name="accentDark">#8E9EB2</item>
+        <item name="accentSoft">#2AC2D0E0</item>
+    </style>
 </resources>

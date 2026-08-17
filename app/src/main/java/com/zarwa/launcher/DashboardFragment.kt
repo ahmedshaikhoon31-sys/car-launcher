@@ -1,6 +1,8 @@
 package com.zarwa.launcher
 
 import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -33,6 +35,7 @@ class DashboardFragment : Fragment() {
     private var lastWeatherFetch = 0L
     private val eqAnimators = mutableListOf<ObjectAnimator>()
     private var eqRunning = false
+    private val microAnimators = mutableListOf<ObjectAnimator>()
 
     private val tick = object : Runnable {
         override fun run() {
@@ -101,6 +104,7 @@ class DashboardFragment : Fragment() {
         b.dockApps.setOnClickListener { AppLauncher.openDrawer(ctx) }
 
         setupEqualizer()
+        startMicroMotion()
 
         // Premium entrance: staggered fade + rise
         val entrance = listOf(b.txtGreeting, b.txtClock, b.weatherRow, b.mediaCard, b.navCard, b.statusRow, b.dock)
@@ -196,6 +200,31 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    /** Subtle continuous life: weather icon floats, play button gently breathes. */
+    private fun startMicroMotion() {
+        microAnimators.forEach { it.cancel() }
+        microAnimators.clear()
+        val d = resources.displayMetrics.density
+        microAnimators.add(
+            ObjectAnimator.ofFloat(b.weatherIcon, "translationY", 0f, -5f * d).apply {
+                duration = 2200; repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.REVERSE
+                interpolator = AccelerateDecelerateInterpolator(); start()
+            }
+        )
+        microAnimators.add(
+            ObjectAnimator.ofPropertyValuesHolder(
+                b.btnPlay,
+                PropertyValuesHolder.ofFloat("scaleX", 1f, 1.06f),
+                PropertyValuesHolder.ofFloat("scaleY", 1f, 1.06f)
+            ).apply {
+                duration = 1500; repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.REVERSE
+                interpolator = AccelerateDecelerateInterpolator(); start()
+            }
+        )
+    }
+
     private fun maybeRefreshWeather() {
         val now = System.currentTimeMillis()
         if (now - lastWeatherFetch < 15 * 60 * 1000L) return
@@ -224,6 +253,10 @@ class DashboardFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        microAnimators.forEach { it.cancel() }
+        microAnimators.clear()
+        eqAnimators.forEach { it.cancel() }
+        eqAnimators.clear()
         _b = null
     }
 }
