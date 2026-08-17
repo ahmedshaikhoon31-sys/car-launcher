@@ -57,6 +57,16 @@
         <!-- Media notification listener temporarily disabled while diagnosing a
              reboot on the locked head unit. Media buttons still work via media keys. -->
 
+        <!-- Persists the per-app language on Android 12 and below -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
     </application>
 
 </manifest>

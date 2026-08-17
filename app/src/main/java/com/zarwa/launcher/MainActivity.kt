@@ -109,6 +109,8 @@ class MainActivity : AppCompatActivity() {
         val items = arrayOf(
             getString(R.string.theme_color),
             getString(R.string.bg_style),
+            getString(R.string.name_prompt),
+            getString(R.string.language),
             getString(R.string.bg_from_gallery),
             getString(R.string.bg_from_url),
             getString(R.string.bg_reset)
@@ -119,10 +121,39 @@ class MainActivity : AppCompatActivity() {
                 when (which) {
                     0 -> showThemePicker()
                     1 -> showBgStylePicker()
-                    2 -> pickImage.launch(arrayOf("image/*"))
-                    3 -> showUrlDialog()
-                    4 -> { Prefs.setBgUri(this, null); applyBackground() }
+                    2 -> showNameDialog()
+                    3 -> showLanguageDialog()
+                    4 -> pickImage.launch(arrayOf("image/*"))
+                    5 -> showUrlDialog()
+                    6 -> { Prefs.setBgUri(this, null); applyBackground() }
                 }
+            }
+            .show()
+    }
+
+    private fun showNameDialog() {
+        val input = EditText(this)
+        input.hint = getString(R.string.name_hint)
+        input.setText(Prefs.userName(this))
+        AlertDialog.Builder(this)
+            .setTitle(R.string.name_prompt)
+            .setView(input)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                Prefs.setUserName(this, input.text.toString().trim())
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showLanguageDialog() {
+        val names = arrayOf(getString(R.string.lang_arabic), getString(R.string.lang_english))
+        AlertDialog.Builder(this)
+            .setTitle(R.string.language)
+            .setItems(names) { _, which ->
+                val tag = if (which == 0) "ar" else "en"
+                androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
+                    androidx.core.os.LocaleListCompat.forLanguageTags(tag)
+                )
             }
             .show()
     }

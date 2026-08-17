@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ZARWA</string>
+    <string name="app_name">AURA</string>
     <string name="all_apps">التطبيقات</string>
     <string name="maps">الخرائط</string>
     <string name="music">الموسيقى</string>
@@ -64,6 +64,14 @@
     <string name="style_particles">نجوم</string>
     <string name="style_grid">شبكة تقنية</string>
     <string name="style_rings">نبضات</string>
+    <string name="name_prompt">اسمك</string>
+    <string name="name_hint">اكتب اسمك هنا</string>
+    <string name="language">اللغة</string>
+    <string name="lang_arabic">عربي</string>
+    <string name="lang_english">English</string>
+    <string name="greet_morning_name">صباح الخير يا %s</string>
+    <string name="greet_afternoon_name">مساء الخير يا %s</string>
+    <string name="greet_evening_name">مساء الخير يا %s</string>
     <string name="ok">تمام</string>
     <string name="cancel">إلغاء</string>
     <string name="wifi">واي فاي</string>
@@ -74,4 +82,13 @@
     <string name="greet_evening">مساء الخير</string>
     <string name="personalize">تخصيص المظهر</string>
     <string name="theme_color">لون الثيم 🎨</string>
+    <string name="weather_clear">صافي</string>
+    <string name="weather_partly">غائم جزئياً</string>
+    <string name="weather_cloudy">غائم</string>
+    <string name="weather_fog">شبورة</string>
+    <string name="weather_rain">أمطار</string>
+    <string name="weather_snow">ثلوج</string>
+    <string name="weather_showers">زخات مطر</string>
+    <string name="weather_thunder">عواصف رعدية</string>
+    <string name="weather_na">—</string>
 </resources>

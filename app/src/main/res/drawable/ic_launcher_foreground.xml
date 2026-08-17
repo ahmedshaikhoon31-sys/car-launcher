@@ -1,8 +1,13 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp" android:height="108dp"
     android:viewportWidth="108" android:viewportHeight="108">
-    <path android:fillColor="#4FC3F7"
-        android:pathData="M38,40h32v7l-20,22h20v7H38v-7l20,-22H38z" />
-    <path android:fillColor="#FFFFFF"
-        android:pathData="M50,34h8v6h-8zM50,68h8v6h-8z" />
+    <!-- soft aurora arc above the mark -->
+    <path android:strokeColor="#663DD8E0" android:strokeWidth="4" android:strokeLineCap="round"
+        android:pathData="M34,34 C46,24 62,24 74,34" />
+    <!-- the A monogram -->
+    <path android:strokeColor="#EAF6FF" android:strokeWidth="8"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M37,80 L54,34 L71,80" />
+    <path android:strokeColor="#EAF6FF" android:strokeWidth="8" android:strokeLineCap="round"
+        android:pathData="M44,63 L64,63" />
 </vector>

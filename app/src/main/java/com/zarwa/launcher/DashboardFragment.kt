@@ -31,11 +31,10 @@ class DashboardFragment : Fragment() {
     private val b get() = _b!!
 
     private val handler = Handler(Looper.getMainLooper())
-    private val arLocale = Locale("ar")
     private val timeFmt = SimpleDateFormat("h:mm", Locale.US)
     private val ampmFmt = SimpleDateFormat("a", Locale.US)
     private val hourFmt = SimpleDateFormat("H", Locale.US)
-    private val dateFmt = SimpleDateFormat("EEEE، d MMMM", arLocale)
+    private var dateFmt: SimpleDateFormat? = null
     private var lastWeatherFetch = 0L
     private val eqAnimators = mutableListOf<ObjectAnimator>()
     private var eqRunning = false
@@ -65,6 +64,7 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (_b == null) return
         val ctx = requireContext()
+        dateFmt = SimpleDateFormat("EEEE، d MMMM", resources.configuration.locales[0])
 
         // Media controls
         b.btnPrev.setOnClickListener { MediaHub.previous(ctx) }
@@ -127,15 +127,27 @@ class DashboardFragment : Fragment() {
         val now = Date()
         b.txtClock.text = timeFmt.format(now)
         b.txtAmPm.text = ampmFmt.format(now)
-        b.txtDate.text = dateFmt.format(now)
+        b.txtDate.text = dateFmt?.format(now) ?: ""
         val hour = hourFmt.format(now).toIntOrNull() ?: 12
-        b.txtGreeting.setText(
-            when {
-                hour < 12 -> R.string.greet_morning
-                hour < 18 -> R.string.greet_afternoon
-                else -> R.string.greet_evening
-            }
-        )
+        val name = context?.let { Prefs.userName(it) }.orEmpty()
+        b.txtGreeting.text = if (name.isEmpty()) {
+            getString(
+                when {
+                    hour < 12 -> R.string.greet_morning
+                    hour < 18 -> R.string.greet_afternoon
+                    else -> R.string.greet_evening
+                }
+            )
+        } else {
+            getString(
+                when {
+                    hour < 12 -> R.string.greet_morning_name
+                    hour < 18 -> R.string.greet_afternoon_name
+                    else -> R.string.greet_evening_name
+                },
+                name
+            )
+        }
     }
 
     private fun updateMedia() {

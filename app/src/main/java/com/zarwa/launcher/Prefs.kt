@@ -57,6 +57,10 @@ object Prefs {
         sp(ctx).edit().putString(KEY_GRID, json).apply()
     }
 
+    // The user's name, shown in the greeting (empty = no name).
+    fun userName(ctx: Context): String = sp(ctx).getString("user_name", "") ?: ""
+    fun setUserName(ctx: Context, name: String) { sp(ctx).edit().putString("user_name", name).apply() }
+
     // Living background style: 0 aurora, 1 waves, 2 particles.
     fun bgStyle(ctx: Context): Int = sp(ctx).getInt("bg_style", 0)
     fun setBgStyle(ctx: Context, i: Int) { sp(ctx).edit().putInt("bg_style", i).apply() }
