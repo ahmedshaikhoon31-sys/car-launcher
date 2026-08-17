@@ -63,6 +63,10 @@ class MainActivity : AppCompatActivity() {
         buildDots(3)
         b.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) = updateDots(position)
+            override fun onPageScrolled(position: Int, offset: Float, offsetPx: Int) {
+                // Subtle parallax: the living background drifts slower than the pages.
+                b.aurora.translationX = -(position + offset) * 55f
+            }
         })
         updateDots(0)
 

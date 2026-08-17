@@ -40,6 +40,7 @@ class DashboardFragment : Fragment() {
     private val eqAnimators = mutableListOf<ObjectAnimator>()
     private var eqRunning = false
     private val microAnimators = mutableListOf<ObjectAnimator>()
+    private var lastTrackForColor: String? = null
 
     private val tick = object : Runnable {
         override fun run() {
@@ -160,10 +161,38 @@ class DashboardFragment : Fragment() {
         }
         b.txtTrack.text = np.title
         b.txtArtist.text = np.artist
-        if (np.art != null) b.albumArt.setImageBitmap(np.art) else b.albumArt.setImageDrawable(null)
         b.mediaProgress.progress = if (np.progress >= 0) (np.progress * 100).toInt() else 0
         b.btnPlay.setImageResource(if (np.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
         setEqualizerPlaying(np.isPlaying)
+        val art = np.art
+        if (art != null) {
+            b.albumArt.setImageBitmap(art)
+            if (np.title != lastTrackForColor) {   // recolour media to the song (Lucid-style)
+                lastTrackForColor = np.title
+                androidx.palette.graphics.Palette.from(art).generate { p ->
+                    if (_b == null || p == null) return@generate
+                    applyMediaColor(p.getVibrantColor(p.getDominantColor(accentColor())))
+                }
+            }
+        } else {
+            b.albumArt.setImageDrawable(null)
+            if (lastTrackForColor != null) { lastTrackForColor = null; applyMediaColor(accentColor()) }
+        }
+    }
+
+    private fun accentColor(): Int {
+        val ctx = context ?: return 0xFF4FC3F7.toInt()
+        val tv = android.util.TypedValue()
+        ctx.theme.resolveAttribute(R.attr.accent, tv, true)
+        return if (tv.data != 0) tv.data else 0xFF4FC3F7.toInt()
+    }
+
+    private fun applyMediaColor(color: Int) {
+        val bind = _b ?: return
+        val csl = android.content.res.ColorStateList.valueOf(color)
+        bind.mediaProgress.progressTintList = csl
+        bind.btnPlay.backgroundTintList = csl
+        for (i in 0 until bind.eqBars.childCount) bind.eqBars.getChildAt(i).setBackgroundColor(color)
     }
 
     private fun setupEqualizer() {

@@ -46,4 +46,5 @@ dependencies {
     implementation("androidx.gridlayout:gridlayout:1.0.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0")
     implementation("androidx.fragment:fragment-ktx:1.8.2")
+    implementation("androidx.palette:palette-ktx:1.0.0")
 }
