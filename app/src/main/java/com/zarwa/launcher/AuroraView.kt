@@ -37,11 +37,17 @@ class AuroraView @JvmOverloads constructor(
     private class Dot(var x: Float, var y: Float, var s: Float, var sp: Float)
     private val dots = ArrayList<Dot>()
 
+    private var lastDraw = 0L
     private val animator = ValueAnimator.ofFloat(0f, (2 * Math.PI).toFloat()).apply {
         duration = 26000L
         repeatCount = ValueAnimator.INFINITE
         interpolator = LinearInterpolator()
-        addUpdateListener { phase = it.animatedValue as Float; invalidate() }
+        addUpdateListener {
+            phase = it.animatedValue as Float
+            // Throttle to ~25fps — plenty for a slow background, half the redraw cost.
+            val now = android.os.SystemClock.uptimeMillis()
+            if (now - lastDraw >= 40L) { lastDraw = now; invalidate() }
+        }
     }
 
     private fun isNight(): Boolean =
@@ -169,11 +175,18 @@ class AuroraView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (!animator.isStarted) animator.start()
+        if (!animator.isRunning) animator.start()
     }
 
     override fun onDetachedFromWindow() {
         animator.cancel()
         super.onDetachedFromWindow()
+    }
+
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        // Don't animate the background while another app is covering the launcher.
+        if (visibility == VISIBLE) { if (!animator.isRunning) animator.start() }
+        else animator.cancel()
     }
 }
