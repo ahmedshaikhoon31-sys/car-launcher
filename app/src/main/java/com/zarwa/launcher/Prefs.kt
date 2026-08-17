@@ -98,8 +98,8 @@ object Prefs {
     fun fontWeight(ctx: Context): Int = sp(ctx).getInt("font_weight", 0)
     fun setFontWeight(ctx: Context, i: Int) { sp(ctx).edit().putInt("font_weight", i).apply() }
 
-    // Startup welcome chime: 0 off, 1 soft, 2 bell, 3 rising.
-    fun chime(ctx: Context): Int = sp(ctx).getInt("chime", 1)
+    // Startup welcome chime: 0 off (default), 1 soft, 2 bell, 3 rising.
+    fun chime(ctx: Context): Int = sp(ctx).getInt("chime", 0)
     fun setChime(ctx: Context, i: Int) { sp(ctx).edit().putInt("chime", i).apply() }
 
     // Optional user-picked audio file for the welcome sound (overrides the chime).
