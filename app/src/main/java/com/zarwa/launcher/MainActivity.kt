@@ -75,7 +75,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         b.btnTheme.setOnClickListener {
-            Prefs.setDark(this, !Prefs.isDark(this)) // day/night toggle (triggers recreate)
+            Prefs.setDark(this, !Prefs.isDark(this))
+            recreate() // uiMode is in configChanges, so force re-inflation with the new theme
         }
         b.btnTheme.setOnLongClickListener { showThemePicker(); true }
 

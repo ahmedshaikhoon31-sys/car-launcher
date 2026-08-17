@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- DARK theme values (the premium default look). -->
 <resources>
-    <color name="bg_top">#0C1424</color>
-    <color name="bg_mid">#080E1A</color>
-    <color name="bg_bottom">#04060B</color>
-    <color name="glow">#2A356EA0</color>
-    <color name="glow2">#1E3A2E74</color>
+    <color name="bg_top">#0A121C</color>
+    <color name="bg_mid">#05090F</color>
+    <color name="bg_bottom">#020407</color>
+    <color name="glow">#242E7E82</color>
+    <color name="glow2">#1C2E6EA0</color>
 
     <color name="surface">#141C2B</color>
     <color name="stroke">#22FFFFFF</color>
