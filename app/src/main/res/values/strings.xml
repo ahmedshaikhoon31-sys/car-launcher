@@ -62,4 +62,6 @@
     <string name="greet_morning">صباح الخير</string>
     <string name="greet_afternoon">مساء الخير</string>
     <string name="greet_evening">مساء الخير</string>
+    <string name="personalize">تخصيص المظهر</string>
+    <string name="theme_color">لون الثيم 🎨</string>
 </resources>

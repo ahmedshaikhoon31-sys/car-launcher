@@ -100,17 +100,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun showWallpaperMenu() {
         val items = arrayOf(
+            getString(R.string.theme_color),
             getString(R.string.bg_from_gallery),
             getString(R.string.bg_from_url),
             getString(R.string.bg_reset)
         )
         AlertDialog.Builder(this)
-            .setTitle(R.string.bg_choose)
+            .setTitle(R.string.personalize)
             .setItems(items) { _, which ->
                 when (which) {
-                    0 -> pickImage.launch(arrayOf("image/*"))
-                    1 -> showUrlDialog()
-                    2 -> { Prefs.setBgUri(this, null); applyBackground() }
+                    0 -> showThemePicker()
+                    1 -> pickImage.launch(arrayOf("image/*"))
+                    2 -> showUrlDialog()
+                    3 -> { Prefs.setBgUri(this, null); applyBackground() }
                 }
             }
             .show()
