@@ -34,9 +34,17 @@ class AuroraView @JvmOverloads constructor(
         addUpdateListener { phase = it.animatedValue as Float; invalidate() }
     }
 
-    // MBUX-style turquoise + deep blue drifting glows
-    private fun colorA(): Int = if (isNight()) 0x3A22D8C4.toInt() else 0x2422D8C4
-    private fun colorB(): Int = if (isNight()) 0x2E2E8BD6.toInt() else 0x1E2E8BD6
+    // Drifting glows tinted with the active theme's accent colour.
+    private fun accent(): Int {
+        val tv = android.util.TypedValue()
+        context.theme.resolveAttribute(R.attr.accent, tv, true)
+        return if (tv.data != 0) tv.data else 0xFF4FC3F7.toInt()
+    }
+
+    private fun withAlpha(color: Int, a: Int) = (color and 0x00FFFFFF) or (a shl 24)
+
+    private fun colorA(): Int = withAlpha(accent(), if (isNight()) 0x38 else 0x24)
+    private fun colorB(): Int = withAlpha(accent(), if (isNight()) 0x20 else 0x14)
 
     private fun isNight(): Boolean =
         (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==

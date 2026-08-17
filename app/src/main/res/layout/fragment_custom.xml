@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/edit_hint"
-        android:textColor="@color/accent"
+        android:textColor="?attr/accent"
         android:textSize="13sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/topBar" />

@@ -21,7 +21,7 @@
         android:fontFamily="sans-serif-light"
         android:letterSpacing="0.03"
         android:text="مساء الخير"
-        android:textColor="@color/accent"
+        android:textColor="?attr/accent"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="18dp"
         android:text="AM"
-        android:textColor="@color/accent"
+        android:textColor="?attr/accent"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/txtClock"
         app:layout_constraintStart_toEndOf="@id/txtClock" />
@@ -175,7 +175,7 @@
             android:layout_marginTop="8dp"
             android:max="100"
             android:progress="0"
-            android:progressTint="@color/accent"
+            android:progressTint="?attr/accent"
             android:progressBackgroundTint="@color/stroke"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/albumArt"
