@@ -101,6 +101,18 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <!-- inline hourly forecast strip (fills the left space) -->
+    <LinearLayout
+        android:id="@+id/hourlyStrip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@id/vGuide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weatherRow" />
+
     <!-- media card -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mediaCard"

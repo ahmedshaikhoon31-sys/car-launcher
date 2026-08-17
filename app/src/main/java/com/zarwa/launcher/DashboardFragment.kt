@@ -6,11 +6,15 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.zarwa.launcher.weather.HourWeather
 import androidx.fragment.app.Fragment
 import android.content.Intent
 import com.zarwa.launcher.databinding.FragmentDashboardBinding
@@ -236,6 +240,45 @@ class DashboardFragment : Fragment() {
             bind.weatherTemp.text = "${w.tempC}°"
             bind.weatherDesc.text = "${Prefs.city(ctx)} · ${w.desc}"
             bind.weatherIcon.setImageResource(w.iconRes)
+        }
+        WeatherRepo.fetchHourly(Prefs.lat(ctx), Prefs.lon(ctx), 4) { hours ->
+            if (_b != null) buildHourlyStrip(hours)
+        }
+    }
+
+    /** Inline next-hours forecast that fills the empty left space. */
+    private fun buildHourlyStrip(hours: List<HourWeather>) {
+        val bind = _b ?: return
+        val ctx = context ?: return
+        bind.hourlyStrip.removeAllViews()
+        val d = resources.displayMetrics.density
+        hours.take(4).forEach { h ->
+            val col = LinearLayout(ctx).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER
+                setBackgroundResource(R.drawable.search_bg)
+                setPadding((6 * d).toInt(), (10 * d).toInt(), (6 * d).toInt(), (10 * d).toInt())
+            }
+            val lp = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            lp.marginStart = (4 * d).toInt(); lp.marginEnd = (4 * d).toInt()
+            col.layoutParams = lp
+            col.addView(TextView(ctx).apply {
+                text = h.label
+                setTextColor(ContextCompat.getColor(ctx, R.color.text_secondary))
+                textSize = 12f
+            })
+            col.addView(ImageView(ctx).apply {
+                setImageResource(h.iconRes)
+                layoutParams = LinearLayout.LayoutParams((26 * d).toInt(), (26 * d).toInt()).also {
+                    it.topMargin = (6 * d).toInt(); it.bottomMargin = (6 * d).toInt()
+                }
+            })
+            col.addView(TextView(ctx).apply {
+                text = "${h.tempC}°"
+                setTextColor(ContextCompat.getColor(ctx, R.color.text_primary))
+                textSize = 15f
+            })
+            bind.hourlyStrip.addView(col)
         }
     }
 
