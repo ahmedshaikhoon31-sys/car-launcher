@@ -65,7 +65,6 @@ class DashboardFragment : Fragment() {
             if (!MediaHub.hasNotificationAccess(ctx)) MediaHub.openNotificationAccessSettings(ctx)
             else MediaHub.playPause(ctx)
         }
-        b.mediaHint.setOnClickListener { MediaHub.openNotificationAccessSettings(ctx) }
 
         // Navigation card
         b.navCard.setOnClickListener { AppLauncher.openMaps(ctx) }
@@ -135,14 +134,12 @@ class DashboardFragment : Fragment() {
         if (!MediaHub.hasNotificationAccess(ctx)) {
             b.txtTrack.text = getString(R.string.now_playing)
             b.txtArtist.text = getString(R.string.tap_to_play)
-            b.mediaHint.visibility = View.VISIBLE
             b.mediaProgress.progress = 0
             b.albumArt.setImageDrawable(null)
             b.btnPlay.setImageResource(R.drawable.ic_play)
             setEqualizerPlaying(false)
             return
         }
-        b.mediaHint.visibility = View.GONE
         val np = MediaHub.nowPlaying(ctx)
         if (np == null) {
             b.txtTrack.text = getString(R.string.now_playing)

@@ -217,19 +217,6 @@
                 android:contentDescription="next"
                 android:src="@drawable/ic_next" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/mediaHint"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="6dp"
-            android:text="@string/enable_media"
-            android:textColor="@color/accent"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/albumArt" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- ===== RIGHT: nav + status + dock ===== -->
