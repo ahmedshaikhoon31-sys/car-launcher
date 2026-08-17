@@ -58,6 +58,10 @@
     <string name="theme_orange">برتقالي</string>
     <string name="theme_pink">وردي</string>
     <string name="theme_silver">فضي</string>
+    <string name="bg_style">نمط الخلفية الحية</string>
+    <string name="style_aurora">أورورا (إضاءة)</string>
+    <string name="style_waves">أمواج</string>
+    <string name="style_particles">نجوم</string>
     <string name="ok">تمام</string>
     <string name="cancel">إلغاء</string>
     <string name="wifi">واي فاي</string>

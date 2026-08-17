@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         setImmersive()
         applyBackground()
+        b.aurora.style = Prefs.bgStyle(this)
 
         b.pager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount() = 3
@@ -103,6 +104,7 @@ class MainActivity : AppCompatActivity() {
     private fun showWallpaperMenu() {
         val items = arrayOf(
             getString(R.string.theme_color),
+            getString(R.string.bg_style),
             getString(R.string.bg_from_gallery),
             getString(R.string.bg_from_url),
             getString(R.string.bg_reset)
@@ -112,10 +114,26 @@ class MainActivity : AppCompatActivity() {
             .setItems(items) { _, which ->
                 when (which) {
                     0 -> showThemePicker()
-                    1 -> pickImage.launch(arrayOf("image/*"))
-                    2 -> showUrlDialog()
-                    3 -> { Prefs.setBgUri(this, null); applyBackground() }
+                    1 -> showBgStylePicker()
+                    2 -> pickImage.launch(arrayOf("image/*"))
+                    3 -> showUrlDialog()
+                    4 -> { Prefs.setBgUri(this, null); applyBackground() }
                 }
+            }
+            .show()
+    }
+
+    private fun showBgStylePicker() {
+        val names = arrayOf(
+            getString(R.string.style_aurora),
+            getString(R.string.style_waves),
+            getString(R.string.style_particles)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.bg_style)
+            .setItems(names) { _, which ->
+                Prefs.setBgStyle(this, which)
+                b.aurora.style = which
             }
             .show()
     }

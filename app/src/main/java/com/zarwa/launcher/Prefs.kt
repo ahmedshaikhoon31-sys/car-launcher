@@ -57,6 +57,10 @@ object Prefs {
         sp(ctx).edit().putString(KEY_GRID, json).apply()
     }
 
+    // Living background style: 0 aurora, 1 waves, 2 particles.
+    fun bgStyle(ctx: Context): Int = sp(ctx).getInt("bg_style", 0)
+    fun setBgStyle(ctx: Context, i: Int) { sp(ctx).edit().putInt("bg_style", i).apply() }
+
     // Colour theme preset: 0 blue, 1 gold, 2 green, 3 purple, 4 red.
     fun themeIndex(ctx: Context): Int = sp(ctx).getInt(KEY_THEME, 0)
 
