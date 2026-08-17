@@ -17,7 +17,7 @@ class HourAdapter(private val items: List<HourWeather>) :
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val h = items[position]
-        holder.b.hourLabel.text = h.label
+        holder.b.hourLabel.text = WeatherRepo.hourLabel(holder.itemView.context, h)
         holder.b.hourTemp.text = "${h.tempC}°"
         holder.b.hourIcon.setImageResource(h.iconRes)
     }

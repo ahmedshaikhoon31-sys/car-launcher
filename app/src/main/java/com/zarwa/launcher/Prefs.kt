@@ -33,7 +33,8 @@ object Prefs {
     // Weather location — defaults to Cairo, editable later.
     fun lat(ctx: Context): Double = sp(ctx).getFloat(KEY_LAT, 30.06f).toDouble()
     fun lon(ctx: Context): Double = sp(ctx).getFloat(KEY_LON, 31.25f).toDouble()
-    fun city(ctx: Context): String = sp(ctx).getString(KEY_CITY, "القاهرة") ?: "القاهرة"
+    fun city(ctx: Context): String =
+        sp(ctx).getString(KEY_CITY, null) ?: ctx.getString(com.zarwa.launcher.R.string.city_default)
 
     fun setLocation(ctx: Context, lat: Double, lon: Double, city: String) {
         sp(ctx).edit()
@@ -41,6 +42,19 @@ object Prefs {
             .putFloat(KEY_LON, lon.toFloat())
             .putString(KEY_CITY, city)
             .apply()
+    }
+
+    /** Update GPS coordinates only (keeps the previously resolved city name). */
+    fun setLatLon(ctx: Context, lat: Double, lon: Double) {
+        sp(ctx).edit()
+            .putFloat(KEY_LAT, lat.toFloat())
+            .putFloat(KEY_LON, lon.toFloat())
+            .apply()
+    }
+
+    /** Update just the resolved city name (from reverse-geocoding). */
+    fun setCity(ctx: Context, city: String) {
+        sp(ctx).edit().putString(KEY_CITY, city).apply()
     }
 
     // Custom home-screen background image (content:// URI), null = use the gradient.

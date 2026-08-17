@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.zarwa.launcher.weather.HourWeather
 import androidx.fragment.app.Fragment
+import android.content.Context
 import android.content.Intent
 import com.zarwa.launcher.databinding.FragmentDashboardBinding
 import com.zarwa.launcher.media.MediaHub
@@ -32,7 +33,6 @@ class DashboardFragment : Fragment() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val timeFmt = SimpleDateFormat("h:mm", Locale.US)
-    private val ampmFmt = SimpleDateFormat("a", Locale.US)
     private val hourFmt = SimpleDateFormat("H", Locale.US)
     private var dateFmt: SimpleDateFormat? = null
     private var lastWeatherFetch = 0L
@@ -126,9 +126,9 @@ class DashboardFragment : Fragment() {
     private fun updateClock() {
         val now = Date()
         b.txtClock.text = timeFmt.format(now)
-        b.txtAmPm.text = ampmFmt.format(now)
         b.txtDate.text = dateFmt?.format(now) ?: ""
         val hour = hourFmt.format(now).toIntOrNull() ?: 12
+        b.txtAmPm.text = getString(if (hour < 12) R.string.am else R.string.pm)
         val name = context?.let { Prefs.userName(it) }.orEmpty()
         b.txtGreeting.text = if (name.isEmpty()) {
             getString(
@@ -275,11 +275,17 @@ class DashboardFragment : Fragment() {
         if (now - lastWeatherFetch < 15 * 60 * 1000L) return
         lastWeatherFetch = now
         val ctx = context ?: return
+        // Follow the car's real position: refresh GPS, then pull weather for wherever we are.
+        LocationHelper.refresh(ctx) { if (_b != null) fetchWeatherNow(ctx) }
+        fetchWeatherNow(ctx)
+    }
+
+    private fun fetchWeatherNow(ctx: Context) {
         WeatherRepo.fetch(Prefs.lat(ctx), Prefs.lon(ctx)) { w ->
             val bind = _b ?: return@fetch
             if (w == null) return@fetch
             bind.weatherTemp.text = "${w.tempC}°"
-            bind.weatherDesc.text = "${Prefs.city(ctx)} · ${w.desc}"
+            bind.weatherDesc.text = "${Prefs.city(ctx)} · ${ctx.getString(w.descRes)}"
             bind.weatherIcon.setImageResource(w.iconRes)
         }
         WeatherRepo.fetchHourly(Prefs.lat(ctx), Prefs.lon(ctx), 4) { hours ->
@@ -304,7 +310,7 @@ class DashboardFragment : Fragment() {
             lp.marginStart = (4 * d).toInt(); lp.marginEnd = (4 * d).toInt()
             col.layoutParams = lp
             col.addView(TextView(ctx).apply {
-                text = h.label
+                text = com.zarwa.launcher.weather.WeatherRepo.hourLabel(ctx, h)
                 setTextColor(ContextCompat.getColor(ctx, R.color.text_secondary))
                 textSize = 12f
             })

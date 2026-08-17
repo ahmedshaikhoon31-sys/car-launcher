@@ -91,4 +91,7 @@
     <string name="weather_showers">زخات مطر</string>
     <string name="weather_thunder">عواصف رعدية</string>
     <string name="weather_na">—</string>
+    <string name="city_default">القاهرة</string>
+    <string name="am">ص</string>
+    <string name="pm">م</string>
 </resources>

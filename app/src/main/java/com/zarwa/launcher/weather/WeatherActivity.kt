@@ -31,7 +31,7 @@ class WeatherActivity : AppCompatActivity() {
         WeatherRepo.fetch(lat, lon) { w ->
             if (w != null) {
                 b.bigTemp.text = "${w.tempC}°"
-                b.cityDesc.text = "${Prefs.city(this)} · ${w.desc}"
+                b.cityDesc.text = "${Prefs.city(this)} · ${getString(w.descRes)}"
                 b.bigIcon.setImageResource(w.iconRes)
             }
         }

@@ -1,5 +1,6 @@
 package com.zarwa.launcher.weather
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import com.zarwa.launcher.R
@@ -7,8 +8,8 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
-data class Weather(val tempC: Int, val desc: String, val iconRes: Int)
-data class HourWeather(val label: String, val tempC: Int, val iconRes: Int)
+data class Weather(val tempC: Int, val descRes: Int, val iconRes: Int)
+data class HourWeather(val hour24: Int, val isNow: Boolean, val tempC: Int, val iconRes: Int)
 
 /** Fetches current weather from Open-Meteo (free, no API key). */
 object WeatherRepo {
@@ -23,9 +24,7 @@ object WeatherRepo {
                         "?latitude=$lat&longitude=$lon&current=temperature_2m,weather_code"
                 )
                 val conn = (url.openConnection() as HttpURLConnection).apply {
-                    connectTimeout = 8000
-                    readTimeout = 8000
-                    requestMethod = "GET"
+                    connectTimeout = 8000; readTimeout = 8000; requestMethod = "GET"
                 }
                 val body = conn.inputStream.bufferedReader().use { it.readText() }
                 conn.disconnect()
@@ -68,10 +67,10 @@ object WeatherRepo {
                 val list = ArrayList<HourWeather>()
                 var i = start
                 while (i < times.length() && list.size < count) {
-                    val t = times.getString(i) // yyyy-MM-ddTHH:00
-                    val hour = t.substring(11, 13).toInt()
-                    val label = if (list.isEmpty()) "الآن" else hourLabel(hour)
-                    list.add(HourWeather(label, temps.getDouble(i).toInt(), iconFor(codes.getInt(i))))
+                    val hour = times.getString(i).substring(11, 13).toInt()
+                    list.add(
+                        HourWeather(hour, list.isEmpty(), temps.getDouble(i).toInt(), iconFor(codes.getInt(i)))
+                    )
                     i++
                 }
                 list
@@ -82,10 +81,16 @@ object WeatherRepo {
         }.start()
     }
 
-    private fun hourLabel(hour24: Int): String {
-        val h12 = when { hour24 == 0 -> 12; hour24 > 12 -> hour24 - 12; else -> hour24 }
-        val ampm = if (hour24 < 12) "ص" else "م"
-        return "$h12 $ampm"
+    /** Localised hour label ("Now" / "3 PM" / "٣ م") using western digits. */
+    fun hourLabel(ctx: Context, h: HourWeather): String {
+        if (h.isNow) return ctx.getString(R.string.now)
+        val h12 = when { h.hour24 % 12 == 0 -> 12; else -> h.hour24 % 12 }
+        val isArabic = ctx.resources.configuration.locales[0].language == "ar"
+        val marker = when {
+            h.hour24 < 12 -> if (isArabic) "ص" else "AM"
+            else -> if (isArabic) "م" else "PM"
+        }
+        return "$h12 $marker"
     }
 
     private fun iconFor(code: Int): Int = when (code) {
@@ -94,15 +99,15 @@ object WeatherRepo {
         else -> R.drawable.ic_cloud
     }
 
-    private fun descFor(code: Int): String = when (code) {
-        0 -> "صافي"
-        1, 2 -> "غائم جزئياً"
-        3 -> "غائم"
-        45, 48 -> "شبورة"
-        in 51..67 -> "أمطار"
-        in 71..77 -> "ثلوج"
-        in 80..82 -> "زخات مطر"
-        in 95..99 -> "عواصف رعدية"
-        else -> "—"
+    private fun descFor(code: Int): Int = when (code) {
+        0 -> R.string.weather_clear
+        1, 2 -> R.string.weather_partly
+        3 -> R.string.weather_cloudy
+        45, 48 -> R.string.weather_fog
+        in 51..67 -> R.string.weather_rain
+        in 71..77 -> R.string.weather_snow
+        in 80..82 -> R.string.weather_showers
+        in 95..99 -> R.string.weather_thunder
+        else -> R.string.weather_na
     }
 }

@@ -21,6 +21,10 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
+    private companion object {
+        const val REQ_LOCATION = 42
+    }
+
     private lateinit var b: ActivityMainBinding
 
     private val pickImage = registerForActivityResult(
@@ -86,6 +90,38 @@ class MainActivity : AppCompatActivity() {
         b.btnTheme.setOnLongClickListener { showThemePicker(); true }
 
         b.btnWall.setOnClickListener { showWallpaperMenu() }
+
+        ensureLocationPermission()
+    }
+
+    /** Ask once for coarse location so the weather can follow the car's real position. */
+    private fun ensureLocationPermission() {
+        try {
+            if (LocationHelper.hasPermission(this)) {
+                LocationHelper.refresh(this)
+                return
+            }
+            requestPermissions(
+                arrayOf(
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ),
+                REQ_LOCATION
+            )
+        } catch (e: Throwable) {
+            // Never let the optional permission flow crash HOME.
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQ_LOCATION &&
+            grantResults.any { it == android.content.pm.PackageManager.PERMISSION_GRANTED }
+        ) {
+            LocationHelper.refresh(this)
+        }
     }
 
     private fun showThemePicker() {
