@@ -62,6 +62,8 @@
     <string name="style_aurora">أورورا (إضاءة)</string>
     <string name="style_waves">أمواج</string>
     <string name="style_particles">نجوم</string>
+    <string name="style_grid">شبكة تقنية</string>
+    <string name="style_rings">نبضات</string>
     <string name="ok">تمام</string>
     <string name="cancel">إلغاء</string>
     <string name="wifi">واي فاي</string>

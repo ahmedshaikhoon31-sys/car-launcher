@@ -127,7 +127,9 @@ class MainActivity : AppCompatActivity() {
         val names = arrayOf(
             getString(R.string.style_aurora),
             getString(R.string.style_waves),
-            getString(R.string.style_particles)
+            getString(R.string.style_particles),
+            getString(R.string.style_grid),
+            getString(R.string.style_rings)
         )
         AlertDialog.Builder(this)
             .setTitle(R.string.bg_style)

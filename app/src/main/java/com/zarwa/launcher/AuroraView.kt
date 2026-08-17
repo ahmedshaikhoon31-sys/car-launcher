@@ -83,8 +83,42 @@ class AuroraView @JvmOverloads constructor(
         when (style) {
             1 -> drawWaves(canvas)
             2 -> drawParticles(canvas)
+            3 -> drawGrid(canvas)
+            4 -> drawRings(canvas)
             else -> drawAurora(canvas)
         }
+    }
+
+    private fun drawGrid(canvas: Canvas) {
+        val w = width.toFloat(); val h = height.toFloat()
+        paint.shader = null
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 1f * resources.displayMetrics.density
+        paint.color = withAlpha(accent(), 0x16)
+        val spacing = 66f * resources.displayMetrics.density
+        val off = (phase / (2 * Math.PI).toFloat()) * spacing
+        var x = -spacing + off % spacing
+        while (x <= w) { canvas.drawLine(x, 0f, x, h, paint); x += spacing }
+        var y = -spacing + off % spacing
+        while (y <= h) { canvas.drawLine(0f, y, w, y, paint); y += spacing }
+        paint.style = Paint.Style.FILL
+    }
+
+    private fun drawRings(canvas: Canvas) {
+        val w = width.toFloat(); val h = height.toFloat()
+        paint.shader = null
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 2f * resources.displayMetrics.density
+        val cx = w * 0.2f; val cy = h * 0.3f
+        val maxR = maxOf(w, h) * 0.7f
+        val base = phase / (2 * Math.PI).toFloat()
+        for (i in 0 until 4) {
+            var t = (base + i * 0.25f) % 1f
+            if (t < 0) t += 1f
+            paint.color = withAlpha(accent(), (0x3C * (1f - t)).toInt().coerceAtLeast(0))
+            canvas.drawCircle(cx, cy, t * maxR, paint)
+        }
+        paint.style = Paint.Style.FILL
     }
 
     private fun drawAurora(canvas: Canvas) {
