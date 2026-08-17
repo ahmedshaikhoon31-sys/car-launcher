@@ -5,7 +5,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="22dp" />
             <gradient
-                android:angle="120"
+                android:angle="135"
                 android:startColor="@color/tile_fill_a"
                 android:endColor="@color/tile_fill_b"
                 android:type="linear" />
