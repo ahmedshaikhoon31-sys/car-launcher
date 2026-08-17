@@ -33,6 +33,7 @@ class DashboardFragment : Fragment() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val timeFmt = SimpleDateFormat("h:mm", Locale.US)
+    private val fmt24 = SimpleDateFormat("H:mm", Locale.US)
     private val hourFmt = SimpleDateFormat("H", Locale.US)
     private var dateFmt: SimpleDateFormat? = null
     private var lastWeatherFetch = 0L
@@ -40,6 +41,11 @@ class DashboardFragment : Fragment() {
     private var eqRunning = false
     private val microAnimators = mutableListOf<ObjectAnimator>()
     private var lastTrackForColor: String? = null
+
+    companion object {
+        /** Set from settings when the location/city changes so weather refreshes at once. */
+        @JvmStatic var weatherDirty = false
+    }
 
     private val tick = object : Runnable {
         override fun run() {
@@ -65,6 +71,7 @@ class DashboardFragment : Fragment() {
         if (_b == null) return
         val ctx = requireContext()
         dateFmt = SimpleDateFormat("EEEE، d MMMM", resources.configuration.locales[0])
+        FontUtil.apply(ctx, b.root)
 
         // Media controls
         b.btnPrev.setOnClickListener { MediaHub.previous(ctx) }
@@ -211,10 +218,21 @@ class DashboardFragment : Fragment() {
 
     private fun updateClock() {
         val now = Date()
-        b.txtClock.text = timeFmt.format(now)
+        val ctx = context
+        val is24 = when (ctx?.let { Prefs.clockFormat(it) } ?: 0) {
+            1 -> false
+            2 -> true
+            else -> ctx != null && android.text.format.DateFormat.is24HourFormat(ctx)
+        }
+        b.txtClock.text = (if (is24) fmt24 else timeFmt).format(now)
         b.txtDate.text = dateFmt?.format(now) ?: ""
         val hour = hourFmt.format(now).toIntOrNull() ?: 12
-        b.txtAmPm.text = getString(if (hour < 12) R.string.am else R.string.pm)
+        if (is24) {
+            b.txtAmPm.visibility = View.GONE
+        } else {
+            b.txtAmPm.visibility = View.VISIBLE
+            b.txtAmPm.text = getString(if (hour < 12) R.string.am else R.string.pm)
+        }
         val name = context?.let { Prefs.userName(it) }.orEmpty()
         b.txtGreeting.text = if (name.isEmpty()) {
             getString(
@@ -375,11 +393,14 @@ class DashboardFragment : Fragment() {
 
     private fun maybeRefreshWeather() {
         val now = System.currentTimeMillis()
-        if (now - lastWeatherFetch < 15 * 60 * 1000L) return
+        if (!weatherDirty && now - lastWeatherFetch < 15 * 60 * 1000L) return
+        weatherDirty = false
         lastWeatherFetch = now
         val ctx = context ?: return
-        // Follow the car's real position: refresh GPS, then pull weather for wherever we are.
-        LocationHelper.refresh(ctx) { if (_b != null) fetchWeatherNow(ctx) }
+        // Automatic: follow the car's real position via GPS. Manual: use the chosen city.
+        if (Prefs.autoLocation(ctx)) {
+            LocationHelper.refresh(ctx) { if (_b != null) fetchWeatherNow(ctx) }
+        }
         fetchWeatherNow(ctx)
     }
 

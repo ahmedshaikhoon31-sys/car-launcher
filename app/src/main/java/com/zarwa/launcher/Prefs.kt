@@ -86,6 +86,18 @@ object Prefs {
     fun brand(ctx: Context): String = sp(ctx).getString("car_brand", "Hyundai") ?: "Hyundai"
     fun setBrand(ctx: Context, brand: String) { sp(ctx).edit().putString("car_brand", brand).apply() }
 
+    // Font style: 0 = original design, 1 modern, 2 elegant/light, 3 medium, 4 classic serif.
+    fun fontChoice(ctx: Context): Int = sp(ctx).getInt("font_choice", 0)
+    fun setFontChoice(ctx: Context, i: Int) { sp(ctx).edit().putInt("font_choice", i).apply() }
+
+    // Clock format: 0 = automatic (follow system), 1 = 12-hour, 2 = 24-hour.
+    fun clockFormat(ctx: Context): Int = sp(ctx).getInt("clock_format", 0)
+    fun setClockFormat(ctx: Context, i: Int) { sp(ctx).edit().putInt("clock_format", i).apply() }
+
+    // Location source: automatic GPS by default, or a manually chosen city.
+    fun autoLocation(ctx: Context): Boolean = sp(ctx).getBoolean("auto_location", true)
+    fun setAutoLocation(ctx: Context, on: Boolean) { sp(ctx).edit().putBoolean("auto_location", on).apply() }
+
     // Auto night dimming (default on): softly dims the screen during night hours.
     fun autoNight(ctx: Context): Boolean = sp(ctx).getBoolean("auto_night", true)
     fun setAutoNight(ctx: Context, on: Boolean) { sp(ctx).edit().putBoolean("auto_night", on).apply() }

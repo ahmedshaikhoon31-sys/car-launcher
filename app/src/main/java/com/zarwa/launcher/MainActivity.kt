@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(Prefs.themeStyle(this))
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
+        FontUtil.apply(this, b.root)
 
         setImmersive()
         applyBackground()
@@ -293,8 +294,11 @@ class MainActivity : AppCompatActivity() {
         val items = arrayOf(
             getString(R.string.theme_color),
             getString(R.string.bg_style),
+            getString(R.string.font_title),
             getString(R.string.name_prompt),
             getString(R.string.language),
+            getString(R.string.clock_format),
+            getString(R.string.location_title),
             getString(R.string.bg_from_gallery),
             getString(R.string.bg_from_url),
             getString(R.string.bg_reset)
@@ -305,14 +309,103 @@ class MainActivity : AppCompatActivity() {
                 when (which) {
                     0 -> showThemePicker()
                     1 -> showBgStylePicker()
-                    2 -> showNameDialog()
-                    3 -> showLanguageDialog()
-                    4 -> pickImage.launch(arrayOf("image/*"))
-                    5 -> showUrlDialog()
-                    6 -> { Prefs.setBgUri(this, null); applyBackground() }
+                    2 -> showFontDialog()
+                    3 -> showNameDialog()
+                    4 -> showLanguageDialog()
+                    5 -> showClockDialog()
+                    6 -> showLocationDialog()
+                    7 -> pickImage.launch(arrayOf("image/*"))
+                    8 -> showUrlDialog()
+                    9 -> { Prefs.setBgUri(this, null); applyBackground() }
                 }
             }
             .show()
+    }
+
+    private fun showFontDialog() {
+        val names = arrayOf(
+            getString(R.string.font_default), getString(R.string.font_modern),
+            getString(R.string.font_elegant), getString(R.string.font_bold),
+            getString(R.string.font_classic)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.font_title)
+            .setSingleChoiceItems(names, Prefs.fontChoice(this)) { dialog, which ->
+                Prefs.setFontChoice(this, which)
+                dialog.dismiss()
+                recreate()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showClockDialog() {
+        val names = arrayOf(
+            getString(R.string.clock_auto), getString(R.string.clock_12), getString(R.string.clock_24)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.clock_format)
+            .setSingleChoiceItems(names, Prefs.clockFormat(this)) { dialog, which ->
+                Prefs.setClockFormat(this, which)
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showLocationDialog() {
+        val names = arrayOf(getString(R.string.location_auto), getString(R.string.location_manual))
+        val current = if (Prefs.autoLocation(this)) 0 else 1
+        AlertDialog.Builder(this)
+            .setTitle(R.string.location_title)
+            .setSingleChoiceItems(names, current) { dialog, which ->
+                dialog.dismiss()
+                if (which == 0) {
+                    Prefs.setAutoLocation(this, true)
+                    LocationHelper.refresh(this)
+                } else {
+                    Prefs.setAutoLocation(this, false)
+                    showManualCityDialog()
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showManualCityDialog() {
+        val input = EditText(this)
+        input.hint = getString(R.string.city_hint)
+        input.setText(Prefs.city(this))
+        AlertDialog.Builder(this)
+            .setTitle(R.string.location_manual)
+            .setView(input)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val q = input.text.toString().trim()
+                if (q.isNotEmpty()) geocodeCity(q)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    /** Forward-geocode a typed city to coordinates, off the UI thread. */
+    private fun geocodeCity(query: String) {
+        Thread {
+            val addr = try {
+                @Suppress("DEPRECATION")
+                android.location.Geocoder(this, resources.configuration.locales[0])
+                    .getFromLocationName(query, 1)?.firstOrNull()
+            } catch (e: Throwable) {
+                null
+            }
+            runOnUiThread {
+                if (addr != null) {
+                    val city = addr.locality ?: addr.subAdminArea ?: addr.adminArea ?: query
+                    Prefs.setLocation(this, addr.latitude, addr.longitude, city)
+                } else {
+                    Toast.makeText(this, R.string.city_not_found, Toast.LENGTH_LONG).show()
+                }
+            }
+        }.start()
     }
 
     private fun showNameDialog() {

@@ -28,6 +28,7 @@ class EqualizerActivity : AppCompatActivity() {
         setTheme(Prefs.themeStyle(this))
         b = ActivityEqualizerBinding.inflate(layoutInflater)
         setContentView(b.root)
+        com.zarwa.launcher.FontUtil.apply(this, b.root)
         b.aurora.style = Prefs.bgStyle(this)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         accent = resolveAccent()

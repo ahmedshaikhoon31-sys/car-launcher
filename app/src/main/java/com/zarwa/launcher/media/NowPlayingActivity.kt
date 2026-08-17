@@ -39,6 +39,7 @@ class NowPlayingActivity : AppCompatActivity() {
         setTheme(Prefs.themeStyle(this))
         b = ActivityNowPlayingBinding.inflate(layoutInflater)
         setContentView(b.root)
+        com.zarwa.launcher.FontUtil.apply(this, b.root)
         b.aurora.style = Prefs.bgStyle(this)
 
         accent = resolveAccent()

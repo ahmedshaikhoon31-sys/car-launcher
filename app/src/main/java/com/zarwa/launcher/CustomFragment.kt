@@ -72,6 +72,7 @@ class CustomFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (_b == null) return
         val ctx = requireContext()
+        FontUtil.apply(ctx, b.root)
         val cfg = GridStore.load(ctx)
         count = cfg.first
         cells = cfg.second

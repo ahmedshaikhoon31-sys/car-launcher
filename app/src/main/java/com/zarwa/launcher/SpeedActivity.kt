@@ -25,6 +25,7 @@ class SpeedActivity : AppCompatActivity(), LocationListener {
         setTheme(Prefs.themeStyle(this))
         b = ActivitySpeedBinding.inflate(layoutInflater)
         setContentView(b.root)
+        FontUtil.apply(this, b.root)
         b.aurora.style = Prefs.bgStyle(this)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE

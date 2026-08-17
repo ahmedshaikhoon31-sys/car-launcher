@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AURORA</string>
+    <string name="app_name">AURA</string>
     <string name="all_apps">التطبيقات</string>
     <string name="maps">الخرائط</string>
     <string name="music">الموسيقى</string>
@@ -108,6 +108,21 @@
     <string name="dock_customize">اختصار الزرار ده</string>
     <string name="dock_reset">رجوع للافتراضي</string>
     <string name="default_name">عمر</string>
+    <string name="font_title">الخط</string>
+    <string name="font_default">التصميم الأصلي</string>
+    <string name="font_modern">عصري</string>
+    <string name="font_elegant">أنيق (رفيع)</string>
+    <string name="font_bold">عريض</string>
+    <string name="font_classic">كلاسيكي</string>
+    <string name="clock_format">الساعة</string>
+    <string name="clock_auto">تلقائي</string>
+    <string name="clock_12">12 ساعة (ص/م)</string>
+    <string name="clock_24">24 ساعة</string>
+    <string name="location_title">الموقع</string>
+    <string name="location_auto">تلقائي (GPS)</string>
+    <string name="location_manual">أختار المدينة بنفسي</string>
+    <string name="city_hint">اكتب اسم المدينة</string>
+    <string name="city_not_found">مش لاقي المدينة دي — جرّب اسم تاني</string>
     <string name="speedometer">عداد السرعة</string>
     <string name="speed_unit">كم/س</string>
     <string name="gps_waiting">جاري تحديد السرعة…</string>
