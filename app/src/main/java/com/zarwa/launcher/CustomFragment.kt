@@ -31,6 +31,17 @@ class CustomFragment : Fragment() {
     private var adapter: CellAdapter? = null
     private var editMode = false
     private var lastWeather = 0L
+    private var lm: android.location.LocationManager? = null
+
+    private val speedListener = object : android.location.LocationListener {
+        override fun onLocationChanged(location: android.location.Location) {
+            val kmh = if (location.hasSpeed()) (location.speed * 3.6f).toInt().coerceAtLeast(0) else 0
+            adapter?.let { it.speedText = kmh.toString(); it.notifyDataSetChanged() }
+        }
+        override fun onStatusChanged(p: String?, s: Int, e: Bundle?) {}
+        override fun onProviderEnabled(p: String) {}
+        override fun onProviderDisabled(p: String) {}
+    }
 
     private val tick = object : Runnable {
         override fun run() {
@@ -114,8 +125,9 @@ class CustomFragment : Fragment() {
         val ctx = context ?: return
         when (cell.type) {
             Cell.APP -> cell.pkg?.let { AppLauncher.launchPackage(ctx, it) }
-            Cell.MEDIA -> MediaHub.playPause(ctx)
+            Cell.MEDIA -> startActivity(android.content.Intent(ctx, com.zarwa.launcher.media.NowPlayingActivity::class.java))
             Cell.NAV -> AppLauncher.openMaps(ctx)
+            Cell.SPEED -> startActivity(android.content.Intent(ctx, SpeedActivity::class.java))
             else -> {}
         }
     }
@@ -125,7 +137,8 @@ class CustomFragment : Fragment() {
         val labels = arrayOf(
             getString(R.string.cell_app), getString(R.string.cell_clock),
             getString(R.string.cell_weather), getString(R.string.cell_media),
-            getString(R.string.cell_nav), getString(R.string.cell_empty)
+            getString(R.string.cell_nav), getString(R.string.cell_speed),
+            getString(R.string.cell_empty)
         )
         AlertDialog.Builder(ctx)
             .setTitle(R.string.choose_content)
@@ -136,7 +149,8 @@ class CustomFragment : Fragment() {
                     2 -> setCell(pos, Cell.WEATHER)
                     3 -> setCell(pos, Cell.MEDIA)
                     4 -> setCell(pos, Cell.NAV)
-                    5 -> setCell(pos, Cell.EMPTY)
+                    5 -> setCell(pos, Cell.SPEED)
+                    6 -> setCell(pos, Cell.EMPTY)
                 }
             }
             .show()
@@ -166,6 +180,28 @@ class CustomFragment : Fragment() {
     private fun persistAndRefresh() {
         GridStore.save(requireContext(), count, cells)
         adapter?.notifyDataSetChanged()
+        startSpeed()
+    }
+
+    private fun startSpeed() {
+        val ctx = context ?: return
+        if (cells.none { it.type == Cell.SPEED }) { stopSpeed(); return }
+        val ok = androidx.core.content.ContextCompat.checkSelfPermission(
+            ctx, android.Manifest.permission.ACCESS_FINE_LOCATION
+        ) == android.content.pm.PackageManager.PERMISSION_GRANTED ||
+            androidx.core.content.ContextCompat.checkSelfPermission(
+                ctx, android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        if (!ok) return
+        try {
+            lm = ctx.getSystemService(android.content.Context.LOCATION_SERVICE) as android.location.LocationManager
+            lm?.requestLocationUpdates(android.location.LocationManager.GPS_PROVIDER, 1000L, 0f, speedListener)
+        } catch (e: Throwable) {
+        }
+    }
+
+    private fun stopSpeed() {
+        try { lm?.removeUpdates(speedListener) } catch (e: Throwable) {}
     }
 
     private fun fetchWeather() {
@@ -187,11 +223,13 @@ class CustomFragment : Fragment() {
         if (_b == null) return
         handler.post(tick)
         fetchWeather()
+        startSpeed()
     }
 
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(tick)
+        stopSpeed()
     }
 
     override fun onDestroyView() {

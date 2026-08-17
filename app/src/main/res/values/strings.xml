@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AURA</string>
+    <string name="app_name">AURORA</string>
     <string name="all_apps">التطبيقات</string>
     <string name="maps">الخرائط</string>
     <string name="music">الموسيقى</string>
@@ -40,6 +40,7 @@
     <string name="cell_media">ميديا</string>
     <string name="cell_nav">خرائط</string>
     <string name="cell_empty">فاضي</string>
+    <string name="cell_speed">السرعة</string>
     <string name="choose_app">اختار تطبيق</string>
     <string name="bg_from_gallery">من صور جهازي</string>
     <string name="bg_from_url">من لينك على النت</string>
@@ -94,4 +95,30 @@
     <string name="city_default">القاهرة</string>
     <string name="am">ص</string>
     <string name="pm">م</string>
+    <string name="car_brand">نوع العربية</string>
+    <string name="welcome_ready">جاهزة للانطلاق</string>
+    <string-array name="welcome_taglines">
+        <item>جاهزة للانطلاق</item>
+        <item>رحلة سعيدة وآمنة</item>
+        <item>يومك سعيد</item>
+        <item>الطريق في انتظارك</item>
+        <item>خليك مركّز وآمن على الطريق</item>
+        <item>يلا نبدأ يومك</item>
+    </string-array>
+    <string name="dock_customize">اختصار الزرار ده</string>
+    <string name="dock_reset">رجوع للافتراضي</string>
+    <string name="default_name">عمر</string>
+    <string name="speedometer">عداد السرعة</string>
+    <string name="speed_unit">كم/س</string>
+    <string name="gps_waiting">جاري تحديد السرعة…</string>
+    <string name="control_center">لوحة التحكم</string>
+    <string name="brightness">السطوع</string>
+    <string name="volume">الصوت</string>
+    <string name="auto_night">الوضع الليلي التلقائي</string>
+    <string name="need_write_settings">فعّل صلاحية تغيير الإعدادات عشان تتحكم في السطوع</string>
+    <string name="equalizer">الإيكولايزر</string>
+    <string name="eq_bass">تقوية الباس</string>
+    <string name="eq_surround">محيطي</string>
+    <string name="eq_presets">الإعدادات الجاهزة</string>
+    <string name="eq_unsupported">وحدة الصوت في عربيتك مش بتسمح بالتحكم في الإيكولايزر من هنا — استخدم إعدادات الصوت بتاعة الجهاز.</string>
 </resources>

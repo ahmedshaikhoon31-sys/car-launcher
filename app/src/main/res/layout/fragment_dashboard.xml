@@ -196,14 +196,15 @@
             app:layout_constraintTop_toBottomOf="@id/txtArtist" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="10dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/albumArt"
             app:layout_constraintTop_toBottomOf="@id/mediaProgress">
 
@@ -343,6 +344,7 @@
         <ImageButton android:id="@+id/dockVideo" style="@style/DockIcon" android:src="@drawable/ic_video" />
         <ImageButton android:id="@+id/dockRadio" style="@style/DockIcon" android:src="@drawable/ic_radio" />
         <ImageButton android:id="@+id/dockCamera" style="@style/DockIcon" android:src="@drawable/ic_camera" />
+        <ImageButton android:id="@+id/dockControl" style="@style/DockIcon" android:src="@drawable/ic_control" />
         <ImageButton android:id="@+id/dockSplit" style="@style/DockIcon" android:src="@drawable/ic_split" />
         <ImageButton android:id="@+id/dockSettings" style="@style/DockIcon" android:src="@drawable/ic_settings" />
         <ImageButton android:id="@+id/dockApps" style="@style/DockIcon" android:src="@drawable/ic_apps" />

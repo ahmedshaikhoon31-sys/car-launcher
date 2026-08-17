@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -80,5 +81,118 @@
         android:src="@drawable/ic_theme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Auto night dimming overlay (transparent to touch, sits above content) -->
+    <View
+        android:id="@+id/nightDim"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:background="#000000"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Premium welcome screen, shown for a moment at every start -->
+    <FrameLayout
+        android:id="@+id/welcome"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/welcome_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/welcomeBgImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/welcomeScrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99050A12"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/welcomeBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/welcomeHello"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:letterSpacing="0.06"
+                android:textColor="?attr/accent"
+                android:textSize="20sp"
+                tools:text="مساء الخير" />
+
+            <TextView
+                android:id="@+id/welcomeGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.02"
+                android:textColor="#FFFFFF"
+                android:textSize="58sp"
+                tools:text="عمر" />
+
+            <View
+                android:layout_width="86dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="22dp"
+                android:background="?attr/accent" />
+
+            <TextView
+                android:id="@+id/welcomeReady"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:letterSpacing="0.22"
+                android:text="@string/welcome_ready"
+                android:textColor="#8091A6"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/welcomeClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="42dp"
+            android:fontFamily="sans-serif-thin"
+            android:letterSpacing="0.02"
+            android:textColor="#5A6B80"
+            android:textSize="22sp"
+            tools:text="2:46" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="28dp"
+            android:letterSpacing="0.4"
+            android:text="@string/app_name"
+            android:textColor="?attr/accent"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
     private companion object {
         const val REQ_LOCATION = 42
+        // Show the welcome screen once per process (i.e. once per real boot/start),
+        // not on every configuration-driven recreate.
+        var welcomeShown = false
     }
 
     private lateinit var b: ActivityMainBinding
@@ -92,6 +95,151 @@ class MainActivity : AppCompatActivity() {
         b.btnWall.setOnClickListener { showWallpaperMenu() }
 
         ensureLocationPermission()
+        maybeShowWelcome(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        applyNightDim()
+    }
+
+    /** Softly dims the screen during night hours when auto-night is on. */
+    private fun applyNightDim() {
+        val target = if (Prefs.autoNight(this) && isNightHour()) 0.32f else 0f
+        b.nightDim.animate().alpha(target).setDuration(600L).start()
+    }
+
+    private fun isNightHour(): Boolean {
+        val h = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+        return h >= 19 || h < 6
+    }
+
+    /** Premium branded intro: brand name + personal greeting, then fades away. */
+    private fun maybeShowWelcome(savedInstanceState: Bundle?) {
+        if (welcomeShown || savedInstanceState != null) {
+            b.welcome.visibility = View.GONE
+            return
+        }
+        welcomeShown = true
+        try {
+            val name = Prefs.userName(this)
+            if (name.isEmpty()) {
+                b.welcomeHello.visibility = View.GONE
+                b.welcomeGreeting.text = timeGreeting()
+            } else {
+                b.welcomeHello.visibility = View.VISIBLE
+                b.welcomeHello.text = timeGreeting()
+                b.welcomeGreeting.text = name
+            }
+            b.welcomeClock.text = java.text.SimpleDateFormat("h:mm", java.util.Locale.US).format(java.util.Date())
+            b.welcomeReady.text = randomTagline()
+            applyWelcomeBackground()
+
+            val w = b.welcome
+            w.visibility = View.VISIBLE
+            w.alpha = 1f
+            // Gentle rise-in of the greeting block.
+            val block = b.welcomeBlock
+            block.alpha = 0f
+            block.translationY = 24f
+            // Start the hold+fade only AFTER the welcome is actually drawn, so on a
+            // slow cold boot it stays on screen for its full duration (never dismissed
+            // before the first frame renders).
+            w.post {
+                block.animate().alpha(1f).translationY(0f)
+                    .setStartDelay(120L).setDuration(600L).start()
+                shimmer(b.welcomeGreeting)
+                w.postDelayed({
+                    w.animate().alpha(0f).setDuration(500L)
+                        .withEndAction { w.visibility = View.GONE }.start()
+                }, 2200L)
+            }
+        } catch (e: Throwable) {
+            b.welcome.visibility = View.GONE
+        }
+    }
+
+    /** Picks a warm, varied tagline each start. */
+    private fun randomTagline(): String {
+        val arr = resources.getStringArray(R.array.welcome_taglines)
+        if (arr.isEmpty()) return getString(R.string.welcome_ready)
+        val i = (System.currentTimeMillis() % arr.size).toInt()
+        return arr[i]
+    }
+
+    /** Uses the user's chosen home background behind the welcome (with a dark scrim). */
+    private fun applyWelcomeBackground() {
+        val uriStr = Prefs.bgUri(this)
+        if (uriStr == null) {
+            b.welcomeBgImage.visibility = View.GONE
+            b.welcomeScrim.visibility = View.GONE
+            return
+        }
+        try {
+            contentResolver.openInputStream(Uri.parse(uriStr)).use { input ->
+                val opts = BitmapFactory.Options().apply { inSampleSize = 2 }
+                val bmp = BitmapFactory.decodeStream(input, null, opts)
+                if (bmp != null) {
+                    b.welcomeBgImage.setImageBitmap(bmp)
+                    b.welcomeBgImage.visibility = View.VISIBLE
+                    b.welcomeScrim.visibility = View.VISIBLE
+                } else {
+                    b.welcomeBgImage.visibility = View.GONE
+                    b.welcomeScrim.visibility = View.GONE
+                }
+            }
+        } catch (e: Throwable) {
+            b.welcomeBgImage.visibility = View.GONE
+            b.welcomeScrim.visibility = View.GONE
+        }
+    }
+
+    /** A soft accent-tinted light sweep across the given text once. */
+    private fun shimmer(tv: android.widget.TextView) {
+        tv.post {
+            val w = tv.width.toFloat()
+            if (w <= 0f) return@post
+            val accent = run {
+                val tv2 = android.util.TypedValue()
+                theme.resolveAttribute(R.attr.accent, tv2, true)
+                if (tv2.data != 0) tv2.data else 0xFF4FC3F7.toInt()
+            }
+            val base = tv.currentTextColor
+            val shader = android.graphics.LinearGradient(
+                0f, 0f, w * 0.35f, 0f,
+                intArrayOf(base, accent, base),
+                floatArrayOf(0f, 0.5f, 1f),
+                android.graphics.Shader.TileMode.CLAMP
+            )
+            tv.paint.shader = shader
+            val matrix = android.graphics.Matrix()
+            val anim = android.animation.ValueAnimator.ofFloat(-w, w * 2f)
+            anim.duration = 1500L
+            anim.startDelay = 650L
+            anim.addUpdateListener {
+                matrix.setTranslate(it.animatedValue as Float, 0f)
+                shader.setLocalMatrix(matrix)
+                tv.invalidate()
+            }
+            anim.addListener(object : android.animation.AnimatorListenerAdapter() {
+                override fun onAnimationEnd(a: android.animation.Animator) {
+                    tv.paint.shader = null; tv.invalidate()
+                }
+            })
+            anim.start()
+        }
+    }
+
+    /** Time-of-day greeting (no name), e.g. "مساء الخير" / "Good evening". */
+    private fun timeGreeting(): String {
+        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+        return getString(
+            when {
+                hour < 12 -> R.string.greet_morning
+                hour < 18 -> R.string.greet_afternoon
+                else -> R.string.greet_evening
+            }
+        )
     }
 
     /** Ask once for coarse location so the weather can follow the car's real position. */

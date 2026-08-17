@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AURA</string>
+    <string name="app_name">AURORA</string>
     <string name="all_apps">Apps</string>
     <string name="maps">Maps</string>
     <string name="music">Music</string>
@@ -40,6 +40,7 @@
     <string name="cell_media">Media</string>
     <string name="cell_nav">Maps</string>
     <string name="cell_empty">Empty</string>
+    <string name="cell_speed">Speed</string>
     <string name="choose_app">Choose an app</string>
     <string name="bg_from_gallery">From my photos</string>
     <string name="bg_from_url">From a web link</string>
@@ -94,5 +95,31 @@
     <string name="city_default">Cairo</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
+    <string name="car_brand">Car brand</string>
+    <string name="welcome_ready">Ready to drive</string>
+    <string-array name="welcome_taglines">
+        <item>Ready to drive</item>
+        <item>Have a safe drive</item>
+        <item>Have a great day</item>
+        <item>The road awaits</item>
+        <item>Stay focused, stay safe</item>
+        <item>Let\'s start your day</item>
+    </string-array>
+    <string name="dock_customize">Shortcut for this button</string>
+    <string name="dock_reset">Reset to default</string>
+    <string name="default_name">Omar</string>
+    <string name="speedometer">Speedometer</string>
+    <string name="speed_unit">km/h</string>
+    <string name="gps_waiting">Acquiring GPS…</string>
+    <string name="control_center">Control Center</string>
+    <string name="brightness">Brightness</string>
+    <string name="volume">Volume</string>
+    <string name="auto_night">Auto night mode</string>
+    <string name="need_write_settings">Allow changing system settings to control brightness</string>
+    <string name="equalizer">Equalizer</string>
+    <string name="eq_bass">Bass boost</string>
+    <string name="eq_surround">Surround</string>
+    <string name="eq_presets">Presets</string>
+    <string name="eq_unsupported">Your car\'s audio unit doesn\'t allow equalizer control from here — use the head unit\'s own sound settings.</string>
 </resources>
 

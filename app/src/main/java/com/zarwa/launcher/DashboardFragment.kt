@@ -73,6 +73,12 @@ class DashboardFragment : Fragment() {
             if (!MediaHub.hasNotificationAccess(ctx)) MediaHub.openNotificationAccessSettings(ctx)
             else MediaHub.playPause(ctx)
         }
+        // Tap the card / album art to open the full-screen player.
+        val openPlayer = View.OnClickListener {
+            startActivity(Intent(ctx, com.zarwa.launcher.media.NowPlayingActivity::class.java))
+        }
+        b.mediaCard.setOnClickListener(openPlayer)
+        b.albumArt.setOnClickListener(openPlayer)
 
         // Navigation card
         b.navCard.setOnClickListener { AppLauncher.openMaps(ctx) }
@@ -98,15 +104,13 @@ class DashboardFragment : Fragment() {
         b.btnCar.statusSub.text = getString(R.string.quick_system)
         b.btnCar.root.setOnClickListener { AppLauncher.openSettings(ctx) }
 
-        // Dock
-        b.dockPhone.setOnClickListener { AppLauncher.openPhone(ctx) }
-        b.dockMaps.setOnClickListener { AppLauncher.openMaps(ctx) }
-        b.dockVideo.setOnClickListener { AppLauncher.openVideo(ctx) }
-        b.dockRadio.setOnClickListener { AppLauncher.openRadio(ctx) }
-        b.dockCamera.setOnClickListener { AppLauncher.openCamera(ctx) }
-        b.dockSplit.setOnClickListener { AppLauncher.openDrawerForSplit(ctx) }
-        b.dockSettings.setOnClickListener { AppLauncher.openSettings(ctx) }
-        b.dockApps.setOnClickListener { AppLauncher.openDrawer(ctx) }
+        // Dock — five reassignable favourite slots + three fixed system actions.
+        setupDock(ctx)
+
+        // Tactile press feedback across the interactive tiles (premium fluidity).
+        addPressFeedback(
+            b.navCard, b.weatherRow, b.btnClimate.root, b.btnFuel.root, b.btnCar.root
+        )
 
         setupEqualizer()
         startMicroMotion()
@@ -120,6 +124,88 @@ class DashboardFragment : Fragment() {
                 .setStartDelay(80L + i * 70L)
                 .setDuration(420L)
                 .start()
+        }
+    }
+
+    private fun setupDock(ctx: Context) {
+        bindDockSlot(b.dockPhone, "phone", R.drawable.ic_phone) { AppLauncher.openPhone(ctx) }
+        bindDockSlot(b.dockMaps, "maps", R.drawable.ic_maps) { AppLauncher.openMaps(ctx) }
+        bindDockSlot(b.dockVideo, "video", R.drawable.ic_video) { AppLauncher.openVideo(ctx) }
+        bindDockSlot(b.dockRadio, "radio", R.drawable.ic_radio) { AppLauncher.openRadio(ctx) }
+        bindDockSlot(b.dockCamera, "camera", R.drawable.ic_camera) { AppLauncher.openCamera(ctx) }
+        // Fixed system actions.
+        b.dockControl.setOnClickListener { startActivity(Intent(ctx, ControlActivity::class.java)) }
+        b.dockSplit.setOnClickListener { AppLauncher.openDrawerForSplit(ctx) }
+        b.dockSettings.setOnClickListener { AppLauncher.openSettings(ctx) }
+        b.dockApps.setOnClickListener { AppLauncher.openDrawer(ctx) }
+        addPressFeedback(b.dockControl, b.dockSplit, b.dockSettings, b.dockApps)
+    }
+
+    /** Binds one dock slot: shows the favourite app's icon if set, else the default. */
+    private fun bindDockSlot(
+        btn: android.widget.ImageButton, slot: String, defIcon: Int, defAction: () -> Unit
+    ) {
+        val ctx = context ?: return
+        val pkg = Prefs.dockApp(ctx, slot)
+        if (pkg != null) {
+            try {
+                btn.setImageDrawable(ctx.packageManager.getApplicationIcon(pkg))
+                val p = (6 * resources.displayMetrics.density).toInt()
+                btn.setPadding(p, p, p, p)
+                btn.setOnClickListener { AppLauncher.launchPackage(ctx, pkg) }
+            } catch (e: Throwable) {
+                Prefs.setDockApp(ctx, slot, null)
+                btn.setImageResource(defIcon)
+                btn.setOnClickListener { defAction() }
+            }
+        } else {
+            btn.setImageResource(defIcon)
+            btn.setOnClickListener { defAction() }
+        }
+        btn.setOnLongClickListener { showDockFavoriteDialog(slot); true }
+        addPressFeedback(btn)
+    }
+
+    private fun showDockFavoriteDialog(slot: String) {
+        val ctx = context ?: return
+        val options = arrayOf(getString(R.string.choose_app), getString(R.string.dock_reset))
+        androidx.appcompat.app.AlertDialog.Builder(ctx)
+            .setTitle(R.string.dock_customize)
+            .setItems(options) { _, which ->
+                if (which == 0) {
+                    AppRepository.load(ctx) { apps ->
+                        if (_b == null) return@load
+                        val labels = apps.map { it.label }.toTypedArray()
+                        androidx.appcompat.app.AlertDialog.Builder(ctx)
+                            .setTitle(R.string.choose_app)
+                            .setItems(labels) { _, i ->
+                                Prefs.setDockApp(ctx, slot, apps[i].packageName)
+                                context?.let { setupDock(it) }
+                            }
+                            .show()
+                    }
+                } else {
+                    Prefs.setDockApp(ctx, slot, null)
+                    setupDock(ctx)
+                }
+            }
+            .show()
+    }
+
+    /** Subtle scale-down on touch for a tactile, premium feel. Doesn't consume the event. */
+    @Suppress("ClickableViewAccessibility")
+    private fun addPressFeedback(vararg views: View) {
+        views.forEach { v ->
+            v.setOnTouchListener { view, ev ->
+                when (ev.actionMasked) {
+                    android.view.MotionEvent.ACTION_DOWN ->
+                        view.animate().scaleX(0.9f).scaleY(0.9f).setDuration(90L).start()
+                    android.view.MotionEvent.ACTION_UP,
+                    android.view.MotionEvent.ACTION_CANCEL ->
+                        view.animate().scaleX(1f).scaleY(1f).setDuration(150L).start()
+                }
+                false
+            }
         }
     }
 
@@ -199,12 +285,26 @@ class DashboardFragment : Fragment() {
         return if (tv.data != 0) tv.data else 0xFF4FC3F7.toInt()
     }
 
+    private var mediaColor: Int = 0
+
     private fun applyMediaColor(color: Int) {
         val bind = _b ?: return
+        mediaColor = color
         val csl = android.content.res.ColorStateList.valueOf(color)
         bind.mediaProgress.progressTintList = csl
         bind.btnPlay.backgroundTintList = csl
         for (i in 0 until bind.eqBars.childCount) bind.eqBars.getChildAt(i).setBackgroundColor(color)
+        updateMediaGlow()
+    }
+
+    /** Lucid-style: while playing, the card casts a soft glow in the song's colour. */
+    private fun updateMediaGlow() {
+        val bind = _b ?: return
+        if (android.os.Build.VERSION.SDK_INT >= 28) {
+            val glow = if (eqRunning && mediaColor != 0) mediaColor else android.graphics.Color.TRANSPARENT
+            bind.mediaCard.outlineAmbientShadowColor = glow
+            bind.mediaCard.outlineSpotShadowColor = glow
+        }
     }
 
     private fun setupEqualizer() {
@@ -239,10 +339,13 @@ class DashboardFragment : Fragment() {
         if (playing) {
             b.eqBars.visibility = View.VISIBLE
             eqAnimators.forEach { it.start() }
+            b.albumArt.animate().scaleX(1.12f).scaleY(1.12f).setDuration(420L).start()
         } else {
             b.eqBars.visibility = View.GONE
             eqAnimators.forEach { it.cancel() }
+            b.albumArt.animate().scaleX(1f).scaleY(1f).setDuration(420L).start()
         }
+        updateMediaGlow()
     }
 
     /** Subtle continuous life: weather icon floats, play button gently breathes. */

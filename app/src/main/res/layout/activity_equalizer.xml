@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zarwa.launcher.AuroraView
+        android:id="@+id/aurora"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_margin="22dp"
+        android:background="@drawable/btn_circle"
+        android:contentDescription="@string/back"
+        android:rotationY="180"
+        android:src="@drawable/ic_prev"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginEnd="40dp"
+        android:paddingVertical="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/equalizer"
+                android:textColor="@color/text_primary"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/eqNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/eq_unsupported"
+                android:textColor="@color/text_muted"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <!-- frequency band sliders (built in code) -->
+            <LinearLayout
+                android:id="@+id/eqBands"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="18dp"
+                android:orientation="horizontal" />
+
+            <!-- presets -->
+            <TextView
+                android:id="@+id/eqPresetLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/eq_presets"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp" />
+
+            <HorizontalScrollView
+                android:id="@+id/eqPresetScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/eqPresets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <!-- bass boost -->
+            <TextView
+                android:id="@+id/bassLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/eq_bass"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp" />
+
+            <SeekBar
+                android:id="@+id/seekBass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:max="1000"
+                android:progressTint="?attr/accent"
+                android:thumbTint="?attr/accent" />
+
+            <!-- surround -->
+            <TextView
+                android:id="@+id/surroundLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/eq_surround"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp" />
+
+            <SeekBar
+                android:id="@+id/seekSurround"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:max="1000"
+                android:progressTint="?attr/accent"
+                android:thumbTint="?attr/accent" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

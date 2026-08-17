@@ -71,9 +71,30 @@ object Prefs {
         sp(ctx).edit().putString(KEY_GRID, json).apply()
     }
 
-    // The user's name, shown in the greeting (empty = no name).
-    fun userName(ctx: Context): String = sp(ctx).getString("user_name", "") ?: ""
+    // The user's name, shown in the greeting. If the user hasn't set one, it
+    // defaults to the localized name (Omar in English, عمر in Arabic).
+    fun userName(ctx: Context): String =
+        sp(ctx).getString("user_name", null) ?: ctx.getString(com.zarwa.launcher.R.string.default_name)
     fun setUserName(ctx: Context, name: String) { sp(ctx).edit().putString("user_name", name).apply() }
+
+    // Car brand — shown on the welcome screen at every start (default Hyundai).
+    val BRANDS = arrayOf(
+        "Hyundai", "Mercedes-Benz", "BMW", "Audi", "Toyota", "Kia",
+        "Nissan", "Tesla", "Volkswagen", "Lucid", "Honda", "Chevrolet",
+        "Peugeot", "Renault", "Ford", "Mazda", "Jeep", "Genesis"
+    )
+    fun brand(ctx: Context): String = sp(ctx).getString("car_brand", "Hyundai") ?: "Hyundai"
+    fun setBrand(ctx: Context, brand: String) { sp(ctx).edit().putString("car_brand", brand).apply() }
+
+    // Auto night dimming (default on): softly dims the screen during night hours.
+    fun autoNight(ctx: Context): Boolean = sp(ctx).getBoolean("auto_night", true)
+    fun setAutoNight(ctx: Context, on: Boolean) { sp(ctx).edit().putBoolean("auto_night", on).apply() }
+
+    // Favorite app assigned to a dock slot (null = the slot's built-in action).
+    fun dockApp(ctx: Context, slot: String): String? = sp(ctx).getString("dock_$slot", null)
+    fun setDockApp(ctx: Context, slot: String, pkg: String?) {
+        sp(ctx).edit().apply { if (pkg == null) remove("dock_$slot") else putString("dock_$slot", pkg) }.apply()
+    }
 
     // Living background style: 0 aurora, 1 waves, 2 particles.
     fun bgStyle(ctx: Context): Int = sp(ctx).getInt("bg_style", 0)

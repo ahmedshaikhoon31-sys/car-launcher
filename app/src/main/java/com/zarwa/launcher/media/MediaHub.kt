@@ -16,7 +16,9 @@ data class NowPlaying(
     val artist: String,
     val art: Bitmap?,
     val isPlaying: Boolean,
-    val progress: Float // 0f..1f, -1 if unknown
+    val progress: Float, // 0f..1f, -1 if unknown
+    val positionMs: Long = -1L,
+    val durationMs: Long = -1L
 )
 
 /** Reads and controls whatever media session is currently active on the unit. */
@@ -56,7 +58,15 @@ object MediaHub {
         val dur = md.getLong(MediaMetadata.METADATA_KEY_DURATION)
         val pos = state?.position ?: -1L
         val prog = if (dur > 0 && pos >= 0) (pos.toFloat() / dur).coerceIn(0f, 1f) else -1f
-        return NowPlaying(title, artist, art, playing, prog)
+        return NowPlaying(title, artist, art, playing, prog, pos, dur)
+    }
+
+    /** Seek to an absolute position (ms). No-op if the session doesn't support it. */
+    fun seekTo(ctx: Context, positionMs: Long) {
+        try {
+            controller(ctx)?.transportControls?.seekTo(positionMs)
+        } catch (e: Exception) {
+        }
     }
 
     fun playPause(ctx: Context) {

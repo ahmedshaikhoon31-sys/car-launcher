@@ -14,6 +14,7 @@ data class Cell(var type: String, var pkg: String? = null) {
         const val WEATHER = "weather"
         const val MEDIA = "media"
         const val NAV = "nav"
+        const val SPEED = "speed"
     }
 }
 

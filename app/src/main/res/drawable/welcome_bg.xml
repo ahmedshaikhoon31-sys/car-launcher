@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fixed premium dark gradient (independent of day/night theme) -->
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:angle="45"
-                android:startColor="#083A3F"
-                android:centerColor="#0E7490"
-                android:endColor="#1FB98E"
+                android:angle="135"
+                android:startColor="#0F1D30"
+                android:centerColor="#0A1522"
+                android:endColor="#060D16"
                 android:type="linear" />
         </shape>
     </item>
+    <!-- soft accent glow, upper area -->
     <item>
         <shape android:shape="rectangle">
             <gradient
                 android:centerX="0.5"
-                android:centerY="0.36"
-                android:gradientRadius="150"
-                android:startColor="#5540E0C0"
+                android:centerY="0.42"
+                android:gradientRadius="620"
+                android:startColor="#332FA9E0"
                 android:endColor="#00000000"
                 android:type="radial" />
         </shape>

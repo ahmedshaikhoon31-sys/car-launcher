@@ -32,6 +32,7 @@ class CellAdapter(
     var weatherIcon = R.drawable.ic_cloud
     var mediaTitle = ""
     var mediaPlaying = false
+    var speedText = "0"
 
     private val iconCache = HashMap<String, Drawable?>()
     private val labelCache = HashMap<String, String>()
@@ -72,6 +73,10 @@ class CellAdapter(
             )
         }
         Cell.NAV -> column(icon(R.drawable.ic_maps, 40), text(ctx.getString(R.string.maps), 15f, R.color.text_secondary))
+        Cell.SPEED -> column(
+            text(speedText, 40f, R.color.text_primary),
+            text(ctx.getString(R.string.speed_unit), 13f, R.color.text_secondary)
+        )
         Cell.APP -> {
             val pkg = cell.pkg
             if (pkg == null) hint()
