@@ -86,9 +86,25 @@ object Prefs {
     fun brand(ctx: Context): String = sp(ctx).getString("car_brand", "Hyundai") ?: "Hyundai"
     fun setBrand(ctx: Context, brand: String) { sp(ctx).edit().putString("car_brand", brand).apply() }
 
-    // Font style: 0 = original design, 1 modern, 2 elegant/light, 3 medium, 4 classic serif.
+    // Font family: 0 = original design, 1 modern, 2 elegant/light, 3 medium, 4 classic serif.
     fun fontChoice(ctx: Context): Int = sp(ctx).getInt("font_choice", 0)
     fun setFontChoice(ctx: Context, i: Int) { sp(ctx).edit().putInt("font_choice", i).apply() }
+
+    // Font size: 0 small, 1 normal (default), 2 large.
+    fun fontScale(ctx: Context): Int = sp(ctx).getInt("font_scale", 1)
+    fun setFontScale(ctx: Context, i: Int) { sp(ctx).edit().putInt("font_scale", i).apply() }
+
+    // Font weight: 0 keep design, 1 thin, 2 regular, 3 medium, 4 bold.
+    fun fontWeight(ctx: Context): Int = sp(ctx).getInt("font_weight", 0)
+    fun setFontWeight(ctx: Context, i: Int) { sp(ctx).edit().putInt("font_weight", i).apply() }
+
+    // Startup welcome chime: 0 off, 1 soft, 2 bell, 3 rising.
+    fun chime(ctx: Context): Int = sp(ctx).getInt("chime", 1)
+    fun setChime(ctx: Context, i: Int) { sp(ctx).edit().putInt("chime", i).apply() }
+
+    // Optional user-picked audio file for the welcome sound (overrides the chime).
+    fun chimeUri(ctx: Context): String? = sp(ctx).getString("chime_uri", null)
+    fun setChimeUri(ctx: Context, uri: String?) { sp(ctx).edit().putString("chime_uri", uri).apply() }
 
     // Clock format: 0 = automatic (follow system), 1 = 12-hour, 2 = 24-hour.
     fun clockFormat(ctx: Context): Int = sp(ctx).getInt("clock_format", 0)

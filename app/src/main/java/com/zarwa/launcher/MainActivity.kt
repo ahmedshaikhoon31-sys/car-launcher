@@ -45,6 +45,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val pickAudio = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            try {
+                contentResolver.takePersistableUriPermission(
+                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (_: Exception) {
+            }
+            Prefs.setChimeUri(this, uri.toString())
+            com.zarwa.launcher.media.StartupChime.playFile(this, uri.toString()) // preview
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Prefs.applyTheme(Prefs.isDark(this))
         super.onCreate(savedInstanceState)
@@ -135,6 +150,7 @@ class MainActivity : AppCompatActivity() {
             b.welcomeClock.text = java.text.SimpleDateFormat("h:mm", java.util.Locale.US).format(java.util.Date())
             b.welcomeReady.text = randomTagline()
             applyWelcomeBackground()
+            com.zarwa.launcher.media.StartupChime.playWelcome(this)
 
             val w = b.welcome
             w.visibility = View.VISIBLE
@@ -299,6 +315,7 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.language),
             getString(R.string.clock_format),
             getString(R.string.location_title),
+            getString(R.string.welcome_sound),
             getString(R.string.bg_from_gallery),
             getString(R.string.bg_from_url),
             getString(R.string.bg_reset)
@@ -314,28 +331,91 @@ class MainActivity : AppCompatActivity() {
                     4 -> showLanguageDialog()
                     5 -> showClockDialog()
                     6 -> showLocationDialog()
-                    7 -> pickImage.launch(arrayOf("image/*"))
-                    8 -> showUrlDialog()
-                    9 -> { Prefs.setBgUri(this, null); applyBackground() }
+                    7 -> showSoundDialog()
+                    8 -> pickImage.launch(arrayOf("image/*"))
+                    9 -> showUrlDialog()
+                    10 -> { Prefs.setBgUri(this, null); applyBackground() }
                 }
             }
             .show()
     }
 
     private fun showFontDialog() {
+        val opts = arrayOf(
+            getString(R.string.font_type), getString(R.string.font_size), getString(R.string.font_weight)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.font_title)
+            .setItems(opts) { _, which ->
+                when (which) {
+                    0 -> showFontTypeDialog()
+                    1 -> showFontSizeDialog()
+                    2 -> showFontWeightDialog()
+                }
+            }
+            .show()
+    }
+
+    private fun showFontTypeDialog() {
         val names = arrayOf(
             getString(R.string.font_default), getString(R.string.font_modern),
             getString(R.string.font_elegant), getString(R.string.font_bold),
             getString(R.string.font_classic)
         )
         AlertDialog.Builder(this)
-            .setTitle(R.string.font_title)
+            .setTitle(R.string.font_type)
             .setSingleChoiceItems(names, Prefs.fontChoice(this)) { dialog, which ->
-                Prefs.setFontChoice(this, which)
-                dialog.dismiss()
-                recreate()
+                Prefs.setFontChoice(this, which); dialog.dismiss(); recreate()
             }
             .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showFontSizeDialog() {
+        val names = arrayOf(
+            getString(R.string.size_small), getString(R.string.size_normal), getString(R.string.size_large)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.font_size)
+            .setSingleChoiceItems(names, Prefs.fontScale(this)) { dialog, which ->
+                Prefs.setFontScale(this, which); dialog.dismiss(); recreate()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showFontWeightDialog() {
+        val names = arrayOf(
+            getString(R.string.font_default), getString(R.string.weight_thin),
+            getString(R.string.weight_regular), getString(R.string.weight_medium),
+            getString(R.string.weight_bold)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.font_weight)
+            .setSingleChoiceItems(names, Prefs.fontWeight(this)) { dialog, which ->
+                Prefs.setFontWeight(this, which); dialog.dismiss(); recreate()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun showSoundDialog() {
+        val names = arrayOf(
+            getString(R.string.sound_off), getString(R.string.sound_soft),
+            getString(R.string.sound_bell), getString(R.string.sound_rising)
+        )
+        val current = if (Prefs.chimeUri(this) != null) -1 else Prefs.chime(this)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.welcome_sound)
+            .setSingleChoiceItems(names, current) { _, which ->
+                Prefs.setChimeUri(this, null) // a built-in tone replaces any custom file
+                Prefs.setChime(this, which)
+                com.zarwa.launcher.media.StartupChime.play(this, which) // preview
+            }
+            .setNeutralButton(R.string.sound_from_file) { _, _ ->
+                pickAudio.launch(arrayOf("audio/*"))
+            }
+            .setPositiveButton(R.string.ok, null)
             .show()
     }
 
