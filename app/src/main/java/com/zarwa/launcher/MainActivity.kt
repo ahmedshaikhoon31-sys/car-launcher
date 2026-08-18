@@ -184,6 +184,28 @@ class MainActivity : AppCompatActivity() {
         return arr[i]
     }
 
+    /** Decodes a background image at ~screen resolution: crisp, but memory-safe. */
+    private fun decodeBackground(uriStr: String): android.graphics.Bitmap? {
+        return try {
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            contentResolver.openInputStream(Uri.parse(uriStr)).use {
+                BitmapFactory.decodeStream(it, null, bounds)
+            }
+            val target = maxOf(
+                resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels, 1280
+            )
+            var sample = 1
+            val longest = maxOf(bounds.outWidth, bounds.outHeight)
+            while (longest / (sample * 2) >= target) sample *= 2
+            val opts = BitmapFactory.Options().apply { inSampleSize = sample }
+            contentResolver.openInputStream(Uri.parse(uriStr)).use {
+                BitmapFactory.decodeStream(it, null, opts)
+            }
+        } catch (e: Throwable) {
+            null
+        }
+    }
+
     /** Uses the user's chosen home background behind the welcome (with a dark scrim). */
     private fun applyWelcomeBackground() {
         val uriStr = Prefs.bgUri(this)
@@ -192,20 +214,12 @@ class MainActivity : AppCompatActivity() {
             b.welcomeScrim.visibility = View.GONE
             return
         }
-        try {
-            contentResolver.openInputStream(Uri.parse(uriStr)).use { input ->
-                val opts = BitmapFactory.Options().apply { inSampleSize = 2 }
-                val bmp = BitmapFactory.decodeStream(input, null, opts)
-                if (bmp != null) {
-                    b.welcomeBgImage.setImageBitmap(bmp)
-                    b.welcomeBgImage.visibility = View.VISIBLE
-                    b.welcomeScrim.visibility = View.VISIBLE
-                } else {
-                    b.welcomeBgImage.visibility = View.GONE
-                    b.welcomeScrim.visibility = View.GONE
-                }
-            }
-        } catch (e: Throwable) {
+        val bmp = decodeBackground(uriStr)
+        if (bmp != null) {
+            b.welcomeBgImage.setImageBitmap(bmp)
+            b.welcomeBgImage.visibility = View.VISIBLE
+            b.welcomeScrim.visibility = View.VISIBLE
+        } else {
             b.welcomeBgImage.visibility = View.GONE
             b.welcomeScrim.visibility = View.GONE
         }
@@ -576,20 +590,12 @@ class MainActivity : AppCompatActivity() {
             b.bgScrim.visibility = View.GONE
             return
         }
-        try {
-            contentResolver.openInputStream(Uri.parse(uriStr)).use { input ->
-                val opts = BitmapFactory.Options().apply { inSampleSize = 2 }
-                val bmp = BitmapFactory.decodeStream(input, null, opts)
-                if (bmp != null) {
-                    b.imgBackground.setImageBitmap(bmp)
-                    b.imgBackground.visibility = View.VISIBLE
-                    b.bgScrim.visibility = View.VISIBLE
-                } else {
-                    b.imgBackground.visibility = View.GONE
-                    b.bgScrim.visibility = View.GONE
-                }
-            }
-        } catch (e: Exception) {
+        val bmp = decodeBackground(uriStr)
+        if (bmp != null) {
+            b.imgBackground.setImageBitmap(bmp)
+            b.imgBackground.visibility = View.VISIBLE
+            b.bgScrim.visibility = View.VISIBLE
+        } else {
             Prefs.setBgUri(this, null)
             b.imgBackground.visibility = View.GONE
             b.bgScrim.visibility = View.GONE
