@@ -80,12 +80,18 @@ class DashboardFragment : Fragment() {
             if (!MediaHub.hasNotificationAccess(ctx)) MediaHub.openNotificationAccessSettings(ctx)
             else MediaHub.playPause(ctx)
         }
-        // Tap the card / album art to open the full-screen player.
-        val openPlayer = View.OnClickListener {
-            startActivity(Intent(ctx, com.zarwa.launcher.media.NowPlayingActivity::class.java))
+        // Tap the card / album art: open the full player if something is playing,
+        // otherwise launch the car's music app (linked in settings).
+        val onMediaTap = View.OnClickListener {
+            val np = if (MediaHub.hasNotificationAccess(ctx)) MediaHub.nowPlaying(ctx) else null
+            if (np != null) {
+                startActivity(Intent(ctx, com.zarwa.launcher.media.NowPlayingActivity::class.java))
+            } else {
+                AppLauncher.openMusic(ctx)
+            }
         }
-        b.mediaCard.setOnClickListener(openPlayer)
-        b.albumArt.setOnClickListener(openPlayer)
+        b.mediaCard.setOnClickListener(onMediaTap)
+        b.albumArt.setOnClickListener(onMediaTap)
 
         // Navigation card
         b.navCard.setOnClickListener { AppLauncher.openMaps(ctx) }

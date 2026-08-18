@@ -130,6 +130,8 @@
     <string name="sound_bell">Gentle bell</string>
     <string name="sound_rising">Rising tone</string>
     <string name="sound_from_file">Sound from my files</string>
+    <string name="link_apps">Link car apps</string>
+    <string name="link_apps_hint">Link each button to your car\'s real app</string>
     <string name="clock_format">Clock</string>
     <string name="clock_auto">Automatic</string>
     <string name="clock_12">12-hour (AM/PM)</string>

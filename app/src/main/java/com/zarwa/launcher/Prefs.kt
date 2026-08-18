@@ -124,6 +124,16 @@ object Prefs {
         sp(ctx).edit().apply { if (pkg == null) remove("dock_$slot") else putString("dock_$slot", pkg) }.apply()
     }
 
+    /**
+     * The car's real app chosen for a function (radio / maps / music / phone /
+     * video / camera). Head units ship these under different package names, so
+     * the user links each one once and every shortcut then opens the right app.
+     */
+    fun linkedApp(ctx: Context, fn: String): String? = sp(ctx).getString("link_$fn", null)
+    fun setLinkedApp(ctx: Context, fn: String, pkg: String?) {
+        sp(ctx).edit().apply { if (pkg == null) remove("link_$fn") else putString("link_$fn", pkg) }.apply()
+    }
+
     // Living background style: 0 aurora, 1 waves, 2 particles.
     fun bgStyle(ctx: Context): Int = sp(ctx).getInt("bg_style", 0)
     fun setBgStyle(ctx: Context, i: Int) { sp(ctx).edit().putInt("bg_style", i).apply() }

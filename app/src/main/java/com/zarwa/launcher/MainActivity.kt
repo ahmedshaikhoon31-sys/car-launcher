@@ -322,6 +322,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showWallpaperMenu() {
         val items = arrayOf(
+            getString(R.string.link_apps),
             getString(R.string.theme_color),
             getString(R.string.bg_style),
             getString(R.string.font_title),
@@ -338,20 +339,52 @@ class MainActivity : AppCompatActivity() {
             .setTitle(R.string.personalize)
             .setItems(items) { _, which ->
                 when (which) {
-                    0 -> showThemePicker()
-                    1 -> showBgStylePicker()
-                    2 -> showFontDialog()
-                    3 -> showNameDialog()
-                    4 -> showLanguageDialog()
-                    5 -> showClockDialog()
-                    6 -> showLocationDialog()
-                    7 -> showSoundDialog()
-                    8 -> pickImage.launch(arrayOf("image/*"))
-                    9 -> showUrlDialog()
-                    10 -> { Prefs.setBgUri(this, null); applyBackground() }
+                    0 -> showLinkAppsDialog()
+                    1 -> showThemePicker()
+                    2 -> showBgStylePicker()
+                    3 -> showFontDialog()
+                    4 -> showNameDialog()
+                    5 -> showLanguageDialog()
+                    6 -> showClockDialog()
+                    7 -> showLocationDialog()
+                    8 -> showSoundDialog()
+                    9 -> pickImage.launch(arrayOf("image/*"))
+                    10 -> showUrlDialog()
+                    11 -> { Prefs.setBgUri(this, null); applyBackground() }
                 }
             }
             .show()
+    }
+
+    private fun showLinkAppsDialog() {
+        val functions = listOf(
+            "radio" to R.string.radio,
+            "maps" to R.string.maps,
+            "music" to R.string.music,
+            "phone" to R.string.phone,
+            "video" to R.string.video,
+            "camera" to R.string.camera
+        )
+        val names = functions.map { getString(it.second) }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle(R.string.link_apps)
+            .setItems(names) { _, which ->
+                pickAppForFunction(functions[which].first, getString(functions[which].second))
+            }
+            .show()
+    }
+
+    private fun pickAppForFunction(fn: String, label: String) {
+        AppRepository.load(this) { apps ->
+            val appNames = apps.map { it.label }.toTypedArray()
+            AlertDialog.Builder(this)
+                .setTitle(label)
+                .setItems(appNames) { _, i ->
+                    Prefs.setLinkedApp(this, fn, apps[i].packageName)
+                    Toast.makeText(this, "✓ $label", Toast.LENGTH_SHORT).show()
+                }
+                .show()
+        }
     }
 
     private fun showFontDialog() {

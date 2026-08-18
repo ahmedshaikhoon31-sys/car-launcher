@@ -46,9 +46,16 @@ object AppLauncher {
         return start(ctx, intent)
     }
 
+    /** If the user linked a real car app to this function, open it. */
+    private fun linked(ctx: Context, fn: String): Boolean {
+        val pkg = Prefs.linkedApp(ctx, fn) ?: return false
+        return launchPackage(ctx, pkg)
+    }
+
     // ---- High level actions ----
 
     fun openMaps(ctx: Context) {
+        if (linked(ctx, "maps")) return
         if (launchFirst(ctx, listOf(
                 "com.google.android.apps.maps",
                 "com.autonavi.minimap",
@@ -59,6 +66,7 @@ object AppLauncher {
     }
 
     fun openMusic(ctx: Context) {
+        if (linked(ctx, "music")) return
         if (openMainCategory(ctx, Intent.CATEGORY_APP_MUSIC)) return
         if (launchFirst(ctx, listOf(
                 "com.google.android.apps.youtube.music",
@@ -70,6 +78,7 @@ object AppLauncher {
     }
 
     fun openRadio(ctx: Context) {
+        if (linked(ctx, "radio")) return
         // Common FM-radio packages shipped on Chinese head units.
         if (launchFirst(ctx, listOf(
                 "com.android.fmradio",
@@ -83,6 +92,7 @@ object AppLauncher {
     }
 
     fun openPhone(ctx: Context) {
+        if (linked(ctx, "phone")) return
         if (start(ctx, Intent(Intent.ACTION_DIAL))) return
         openDrawer(ctx)
     }
@@ -104,6 +114,7 @@ object AppLauncher {
     }
 
     fun openVideo(ctx: Context) {
+        if (linked(ctx, "video")) return
         if (launchFirst(ctx, listOf(
                 "com.google.android.youtube",
                 "com.android.gallery3d",
@@ -126,6 +137,7 @@ object AppLauncher {
     }
 
     fun openCamera(ctx: Context) {
+        if (linked(ctx, "camera")) return
         // Prefer the built-in DVR / rear-camera apps common on head units.
         if (launchFirst(ctx, listOf(
                 "com.microntek.dvr",

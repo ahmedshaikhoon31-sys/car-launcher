@@ -130,6 +130,8 @@
     <string name="sound_bell">جرس ناعم</string>
     <string name="sound_rising">نغمة صاعدة</string>
     <string name="sound_from_file">صوت من ملفاتي</string>
+    <string name="link_apps">ربط تطبيقات العربية</string>
+    <string name="link_apps_hint">اربط كل زرار بتطبيق عربيتك الحقيقي</string>
     <string name="clock_format">الساعة</string>
     <string name="clock_auto">تلقائي</string>
     <string name="clock_12">12 ساعة (ص/م)</string>
